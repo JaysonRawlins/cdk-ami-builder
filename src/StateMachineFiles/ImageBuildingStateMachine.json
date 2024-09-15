@@ -1,0 +1,52 @@
+{
+  "Comment": "Start an image build and wait for it to complete",
+  "StartAt": "Start a new image build",
+  "States": {
+    "Start a new image build": {
+      "Type": "Task",
+      "Parameters": {
+        "ClientToken.$": "$.clientToken",
+        "ImagePipelineArn.$": "$.imagePipelineArn"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:imagebuilder:startImagePipelineExecution",
+      "Next": "wait for 2 minutes"
+    },
+    "wait for 2 minutes": {
+      "Type": "Wait",
+      "Seconds": 120,
+      "Next": "Get the image build information"
+    },
+    "Get the image build information": {
+      "Type": "Task",
+      "Parameters": {
+        "ImageBuildVersionArn.$": "$.ImageBuildVersionArn"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:imagebuilder:getImage",
+      "Next": "Is the image done?",
+      "ResultPath": "$.ImageBuildInformation"
+    },
+    "Is the image done?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.ImageBuildInformation.Image.State.Status",
+          "StringEquals": "FAILED",
+          "Comment": "FAILED image build",
+          "Next": "Fail"
+        },
+        {
+          "Variable": "$.ImageBuildInformation.Image.State.Status",
+          "StringEquals": "AVAILABLE",
+          "Next": "Success"
+        }
+      ],
+      "Default": "wait for 2 minutes"
+    },
+    "Fail": {
+      "Type": "Fail"
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}

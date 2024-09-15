@@ -24,9 +24,9 @@ and more.
 
 ## Prerequisites
 
-- AWS account and AWS CLI configured.
-- Familiarity with AWS CDK and TypeScript.
-- Node.js and npm installed.
+* AWS account and AWS CLI configured.
+* Familiarity with AWS CDK and TypeScript.
+* Node.js and npm installed.
 
 ## Installation
 
@@ -50,7 +50,7 @@ Below is an example of how to use the `ImagePipeline` construct in your CDK appl
 
 First, import the `ImagePipeline` construct into your CDK application:
 
-```typescript
+```go
 import { ImagePipeline } from '@layerborn/cdk-ami-builder';
 ```
 
@@ -58,7 +58,7 @@ import { ImagePipeline } from '@layerborn/cdk-ami-builder';
 
 Here's an example of how to use the `ImagePipeline` construct:
 
-```typescript
+```go
 const vpc = new Vpc(this, 'Vpc', {
     ipAddresses: IpAddresses.cidr(props.vpcCidr as string),
     maxAzs: 2,
@@ -130,10 +130,10 @@ ImagePipeline` properties according to your requirements.
 
 ### Customization Options
 
-- `vpc`: Specify the VPC where the Image Pipeline will be deployed.
-- `parentImage`: Define the base AMI for the image recipe.
-- `components`: List custom components for the AMI, such as software installations and configurations.
-- Additional properties like `imageRecipeVersion`, `platform`, `enableVulnScans`, etc., allow further customization.
+* `vpc`: Specify the VPC where the Image Pipeline will be deployed.
+* `parentImage`: Define the base AMI for the image recipe.
+* `components`: List custom components for the AMI, such as software installations and configurations.
+* Additional properties like `imageRecipeVersion`, `platform`, `enableVulnScans`, etc., allow further customization.
 
 ### Outputs
 
@@ -152,10 +152,10 @@ infrastructure setup.
 For support, please contact the package maintainer or open an issue in the repository. Contributions to the package are
 welcome. Please follow the contribution guidelines in the repository.
 
-------
+---
+
 
 This README provides a basic guide to getting started with the `ImagePipeline` construct. For more advanced usage and
 customization, refer to the detailed documentation in the package.
 
 ![User](https://lh3.googleusercontent.com/a/AEdFTp6yNsN1-EC5-OZ2vss91NDDYmHKgEHn8xwdd6eS=s96-c)
-

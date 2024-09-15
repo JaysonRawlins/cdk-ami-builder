@@ -1,0 +1,1516 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ImagePipelineTestCheckStateMachineStatusFunctionC5041832": {
+      "DependsOn": [
+        "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleDefaultPolicyB0A9053C",
+        "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleB3C17D17",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-123456789-assets-5555555555-eu-central-1",
+          "S3Key": "1234567890123456789012345678901234567890123456789012345678901234.zip",
+        },
+        "Description": "CheckStateMachineStatusFunction",
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleB3C17D17",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 720,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleB3C17D17": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleDefaultPolicyB0A9053C": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "states:DescribeExecution",
+                "states:GetExecutionHistory",
+                "states:ListExecutions",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "imagebuilder:GetImage",
+                "imagebuilder:ListImagePipelines",
+                "imagebuilder:StartImagePipelineExecution",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "ec2:ModifyImageAttribute",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Resource": "arn:aws:kms:*:*:alias/aws/ebs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleDefaultPolicyB0A9053C",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleB3C17D17",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestCustomResource01098774": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AmiKmsId": "alias/aws/ebs",
+        "ComponentsHash": "d35eb144ba767be4193ad2c0b12ddc8d",
+        "DebugImagePipeline": "false",
+        "ImagePipelineArn": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestImagePipeline9195AB0F",
+            "Arn",
+          ],
+        },
+        "PhysicalResourceId": "TestStack-ImagePipeline-0-0-1",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestResourceProviderframeworkonEvent8753A46E",
+            "Arn",
+          ],
+        },
+        "SharedAccountIds": "",
+        "StateMachineArn": {
+          "Ref": "ImagePipelineTestStateMachine6D06484D",
+        },
+        "Version": "0.0.1",
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ImagePipelineTestImageBuilderTopicA01AFA71": {
+      "Properties": {
+        "DisplayName": "Image Builder Notify",
+        "KmsMasterKeyId": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestTopicKmsKeyC8EFDF42",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "ImagePipelineTestImagePipeline9195AB0F": {
+      "Properties": {
+        "Description": "Image pipeline",
+        "ImageRecipeArn": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestImageRecipe2AD06513",
+            "Arn",
+          ],
+        },
+        "InfrastructureConfigurationArn": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestInfrastructureConfiguration64E4D6B5",
+            "Arn",
+          ],
+        },
+        "Name": "TestStack-ImagePipeline-0-0-1",
+      },
+      "Type": "AWS::ImageBuilder::ImagePipeline",
+    },
+    "ImagePipelineTestImageRecipe2AD06513": {
+      "Properties": {
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sda1",
+            "Ebs": {
+              "DeleteOnTermination": true,
+              "Encrypted": true,
+              "KmsKeyId": "alias/aws/ebs",
+              "VolumeSize": 30,
+              "VolumeType": "gp3",
+            },
+          },
+        ],
+        "Components": [
+          {
+            "ComponentArn": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestTestComponentADEE66BD",
+                "Arn",
+              ],
+            },
+          },
+        ],
+        "Name": "TestStack-ImageRecipe-3a999ee333d4f4b8959821499f063ec6-0-0-1",
+        "ParentImage": "ami-09694bfab577e90b0",
+        "Version": "0.0.1",
+      },
+      "Type": "AWS::ImageBuilder::ImageRecipe",
+    },
+    "ImagePipelineTestInfrastructureConfiguration64E4D6B5": {
+      "DependsOn": [
+        "ImagePipelineTestInstanceProfile6B91455D",
+      ],
+      "Properties": {
+        "Description": "Infrastructure Configuration for Image Builder",
+        "InstanceProfileName": "TestStack-InstanceProfile",
+        "InstanceTypes": [
+          "t3.medium",
+          "m5.large",
+          "m5.xlarge",
+        ],
+        "Name": "TestStack-InfrastructureConfiguration",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "ImagePipelineTestSecurityGroup99993E94",
+              "GroupId",
+            ],
+          },
+        ],
+        "SnsTopicArn": {
+          "Ref": "ImagePipelineTestImageBuilderTopicA01AFA71",
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+      },
+      "Type": "AWS::ImageBuilder::InfrastructureConfiguration",
+    },
+    "ImagePipelineTestInstanceProfile6B91455D": {
+      "Properties": {
+        "InstanceProfileName": "TestStack-InstanceProfile",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestRole068F0221",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D": {
+      "DependsOn": [
+        "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleDefaultPolicyA7568B5E",
+        "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleE20507BF",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-123456789-assets-5555555555-eu-central-1",
+          "S3Key": "1234567890123456789012345678901234567890123456789012345678901234.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (TestStack/ImagePipelineTest/ResourceProvider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleE20507BF",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleDefaultPolicyA7568B5E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleDefaultPolicyA7568B5E",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleE20507BF",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestResourceProviderframeworkisCompleteServiceRoleE20507BF": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestResourceProviderframeworkonEvent8753A46E": {
+      "DependsOn": [
+        "ImagePipelineTestResourceProviderframeworkonEventServiceRoleDefaultPolicy5B289C14",
+        "ImagePipelineTestResourceProviderframeworkonEventServiceRole90B9CD79",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-123456789-assets-5555555555-eu-central-1",
+          "S3Key": "1234567890123456789012345678901234567890123456789012345678901234.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (TestStack/ImagePipelineTest/ResourceProvider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                "Arn",
+              ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "ImagePipelineTestResourceProviderwaiterstatemachine9A77E4C3",
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestResourceProviderframeworkonEventServiceRole90B9CD79",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestResourceProviderframeworkonEventServiceRole90B9CD79": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestResourceProviderframeworkonEventServiceRoleDefaultPolicy5B289C14": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "ImagePipelineTestResourceProviderwaiterstatemachine9A77E4C3",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestResourceProviderframeworkonEventServiceRoleDefaultPolicy5B289C14",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestResourceProviderframeworkonEventServiceRole90B9CD79",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestResourceProviderframeworkonTimeout897B110E": {
+      "DependsOn": [
+        "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleDefaultPolicy8F24217C",
+        "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleBE166098",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-123456789-assets-5555555555-eu-central-1",
+          "S3Key": "1234567890123456789012345678901234567890123456789012345678901234.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (TestStack/ImagePipelineTest/ResourceProvider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleBE166098",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleBE166098": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleDefaultPolicy8F24217C": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestStartStateMachineFunctionEACFFE72",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestCheckStateMachineStatusFunctionC5041832",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleDefaultPolicy8F24217C",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestResourceProviderframeworkonTimeoutServiceRoleBE166098",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestResourceProviderwaiterstatemachine9A77E4C3": {
+      "DependsOn": [
+        "ImagePipelineTestResourceProviderwaiterstatemachineRoleDefaultPolicy7FC6FC00",
+        "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF",
+      ],
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":120,"MaxAttempts":30,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "ImagePipelineTestResourceProviderframeworkonTimeout897B110E",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestResourceProviderwaiterstatemachineLogGroupDF98BE60",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "ImagePipelineTestResourceProviderwaiterstatemachineLogGroupDF98BE60": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D",
+              },
+              "-c88eb7cd7ccc62ef9a247d27e593f9fec2b175acd8",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestResourceProviderwaiterstatemachineRoleDefaultPolicy7FC6FC00": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ImagePipelineTestResourceProviderframeworkonTimeout897B110E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ImagePipelineTestResourceProviderframeworkonTimeout897B110E",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestResourceProviderwaiterstatemachineRoleDefaultPolicy7FC6FC00",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestRole068F0221": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "IAM role used as part of an Image Builder pipeline",
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/EC2InstanceProfileForImageBuilder",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds",
+              ],
+            ],
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestSecurityGroup99993E94": {
+      "Properties": {
+        "GroupDescription": "TestStack/ImagePipelineTest/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "ImagePipelineTestStartStateMachineFunctionEACFFE72": {
+      "DependsOn": [
+        "ImagePipelineTestStartStateMachineFunctionServiceRoleDefaultPolicyFBF60F5E",
+        "ImagePipelineTestStartStateMachineFunctionServiceRole5773B2A8",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-123456789-assets-5555555555-eu-central-1",
+          "S3Key": "1234567890123456789012345678901234567890123456789012345678901234.zip",
+        },
+        "Description": "StartStateMachineFunction",
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestStartStateMachineFunctionServiceRole5773B2A8",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 720,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestStartStateMachineFunctionServiceRole5773B2A8": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestStartStateMachineFunctionServiceRoleDefaultPolicyFBF60F5E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "states:DescribeExecution",
+                "states:GetExecutionHistory",
+                "states:ListExecutions",
+                "states:StartExecution",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "imagebuilder:GetImage",
+                "imagebuilder:ListImagePipelines",
+                "imagebuilder:StartImagePipelineExecution",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Resource": "arn:aws:kms:*:*:alias/aws/ebs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ImagePipelineTestStartStateMachineFunctionServiceRoleDefaultPolicyFBF60F5E",
+        "Roles": [
+          {
+            "Ref": "ImagePipelineTestStartStateMachineFunctionServiceRole5773B2A8",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ImagePipelineTestStateMachine6D06484D": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "ImagePipelineTestStateMachineRole40EE16ED",
+      ],
+      "Properties": {
+        "DefinitionString": "{"Comment":"Start an image build and wait for it to complete","StartAt":"Start a new image build","States":{"Start a new image build":{"Type":"Task","Parameters":{"ClientToken.$":"$.clientToken","ImagePipelineArn.$":"$.imagePipelineArn"},"Resource":"arn:aws:states:::aws-sdk:imagebuilder:startImagePipelineExecution","Next":"wait for 2 minutes"},"wait for 2 minutes":{"Type":"Wait","Seconds":120,"Next":"Get the image build information"},"Get the image build information":{"Type":"Task","Parameters":{"ImageBuildVersionArn.$":"$.ImageBuildVersionArn"},"Resource":"arn:aws:states:::aws-sdk:imagebuilder:getImage","Next":"Is the image done?","ResultPath":"$.ImageBuildInformation"},"Is the image done?":{"Type":"Choice","Choices":[{"Variable":"$.ImageBuildInformation.Image.State.Status","StringEquals":"FAILED","Comment":"FAILED image build","Next":"Fail"},{"Variable":"$.ImageBuildInformation.Image.State.Status","StringEquals":"AVAILABLE","Next":"Success"}],"Default":"wait for 2 minutes"},"Fail":{"Type":"Fail"},"Success":{"Type":"Succeed"}}}",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestStateMachineRole40EE16ED",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ImagePipelineTestStateMachineRole40EE16ED": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaRole",
+              ],
+            ],
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "xray:GetSamplingRules",
+                    "xray:GetSamplingTargets",
+                    "xray:PutTelemetryRecords",
+                    "xray:PutTraceSegments",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "imagebuilder:*",
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:imagebuilder:eu-central-1:5555555555:image-pipeline/teststack-imagepipeline-*",
+                },
+                {
+                  "Action": "imagebuilder:GetImage",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "StateMachinePolicy",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ImagePipelineTestTestComponentADEE66BD": {
+      "Properties": {
+        "Data": "name: TestComponent
+description: Test Component
+schemaVersion: '1.0'
+phases:
+  - name: build
+    steps:
+      - name: hello
+        action: ExecuteBash
+        inputs:
+          commands:
+            - echo "Hello World"
+",
+        "Description": "Test Component",
+        "Name": "TestComponent",
+        "Platform": "Linux",
+        "Version": "1.0.0",
+      },
+      "Type": "AWS::ImageBuilder::Component",
+    },
+    "ImagePipelineTestTopicKmsKeyAlias3C959C8B": {
+      "Properties": {
+        "AliasName": "alias//ami-builder/TestStack-TopicKmsKey",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "ImagePipelineTestTopicKmsKeyC8EFDF42",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::KMS::Alias",
+    },
+    "ImagePipelineTestTopicKmsKeyC8EFDF42": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "Description": "KMS Key used to encrypt the SNS topic",
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": "kms:*",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::5555555555:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::KMS::Key",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "Vpc8378EB38": {
+      "Properties": {
+        "CidrBlock": "17.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "VpcIGWD7BA715C": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "VpcPrivateSubnet1DefaultRouteBE02A9ED": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "VpcPublicSubnet1NATGateway4D7517AA",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
+        },
+        "SubnetId": {
+          "Ref": "VpcPrivateSubnet1Subnet536B997A",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPrivateSubnet1RouteTableB2C5B500": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPrivateSubnet1Subnet536B997A": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "17.0.2.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPrivateSubnet2DefaultRoute060D2087": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "VpcPublicSubnet1NATGateway4D7517AA",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPrivateSubnet2RouteTableA678073B": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B",
+        },
+        "SubnetId": {
+          "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPrivateSubnet2Subnet3788AAA1": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "17.0.3.0/24",
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+      "DependsOn": [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet1EIPD7E02669": {
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "VpcPublicSubnet1NATGateway4D7517AA": {
+      "DependsOn": [
+        "VpcPublicSubnet1DefaultRoute3DA9E72A",
+        "VpcPublicSubnet1RouteTableAssociation97140677",
+      ],
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "VpcPublicSubnet1EIPD7E02669",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "VpcPublicSubnet1RouteTable6C95E38E": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet1RouteTableAssociation97140677": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet1Subnet5C2D37C4": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "17.0.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPublicSubnet2DefaultRoute97F91067": {
+      "DependsOn": [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet2RouteTable94F7E489": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet2Subnet691E08A3": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "17.0.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "Name",
+            "Value": "TestStack/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcVPCGWBF912B6E": {
+      "Properties": {
+        "InternetGatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

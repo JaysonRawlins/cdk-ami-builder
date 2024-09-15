@@ -1,0 +1,191 @@
+{
+  "name": "@jjrawlins/cdk-ami-builder",
+  "description": "Creates an EC2 AMI using an Image Builder Pipeline and returns the AMI ID.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jjrawlins/cdk-ami-builder-construct.git"
+  },
+  "scripts": {
+    "build": "npx projen build",
+    "bump": "npx projen bump",
+    "bundle": "npx projen bundle",
+    "bundle:Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda": "npx projen bundle:Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda",
+    "bundle:Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda:watch": "npx projen bundle:Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda:watch",
+    "bundle:Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda": "npx projen bundle:Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda",
+    "bundle:Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda:watch": "npx projen bundle:Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda:watch",
+    "bundle:Lambdas/StartStateMachine/StartStateMachine.lambda": "npx projen bundle:Lambdas/StartStateMachine/StartStateMachine.lambda",
+    "bundle:Lambdas/StartStateMachine/StartStateMachine.lambda:watch": "npx projen bundle:Lambdas/StartStateMachine/StartStateMachine.lambda:watch",
+    "clobber": "npx projen clobber",
+    "compat": "npx projen compat",
+    "compile": "npx projen compile",
+    "default": "npx projen default",
+    "docgen": "npx projen docgen",
+    "eject": "npx projen eject",
+    "eslint": "npx projen eslint",
+    "package": "npx projen package",
+    "package-all": "npx projen package-all",
+    "package:go": "npx projen package:go",
+    "package:js": "npx projen package:js",
+    "package:python": "npx projen package:python",
+    "post-compile": "npx projen post-compile",
+    "pre-compile": "npx projen pre-compile",
+    "release": "npx projen release",
+    "test": "npx projen test",
+    "test:watch": "npx projen test:watch",
+    "unbump": "npx projen unbump",
+    "watch": "npx projen watch",
+    "projen": "npx projen"
+  },
+  "author": {
+    "name": "Jayson Rawlins",
+    "email": "jayson.rawlins@gmail.com",
+    "organization": false
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/jest": "^29.5.12",
+    "@types/js-yaml": "^4.0.9",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "aws-cdk": "^2.141.0",
+    "aws-cdk-lib": "^2.141.0",
+    "constructs": "10.3.0",
+    "esbuild": "^0.21.1",
+    "eslint": "^8",
+    "eslint-import-resolver-node": "^0.3.9",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "jest": "^29.7.0",
+    "jest-junit": "^15",
+    "jsii": "~5.0.0",
+    "jsii-diff": "^1.98.0",
+    "jsii-docgen": "^10.4.8",
+    "jsii-pacmak": "^1.98.0",
+    "jsii-rosetta": "~5.0.0",
+    "projen": "^0.71.34",
+    "standard-version": "^9",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "aws-cdk-lib": "^2.141.0",
+    "constructs": "^10.3.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.574.0",
+    "@aws-sdk/client-ecs": "^3.574.0",
+    "@aws-sdk/client-kms": "^3.574.0",
+    "@aws-sdk/client-s3": "^3.574.0",
+    "@aws-sdk/client-secrets-manager": "^3.574.0",
+    "@aws-sdk/client-sfn": "^3.574.0",
+    "@aws-sdk/client-sns": "^3.574.0",
+    "@aws-sdk/client-sqs": "^3.574.0",
+    "@aws-sdk/client-ssm": "^3.574.0",
+    "@types/aws-lambda": "^8.10.137",
+    "@types/crypto-js": "^4.2.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20",
+    "aws-cdk-lib": "^2.141.0",
+    "cdk-iam-floyd": "^0.658.0",
+    "crypto-js": "^4.2.0",
+    "js-yaml": "^4.1.0",
+    "lodash.merge": "^4.6.2"
+  },
+  "bundledDependencies": [
+    "@aws-sdk/client-ec2",
+    "@aws-sdk/client-ecs",
+    "@aws-sdk/client-kms",
+    "@aws-sdk/client-s3",
+    "@aws-sdk/client-secrets-manager",
+    "@aws-sdk/client-sfn",
+    "@aws-sdk/client-sns",
+    "@aws-sdk/client-sqs",
+    "@aws-sdk/client-ssm",
+    "@types/aws-lambda",
+    "@types/crypto-js",
+    "@types/js-yaml",
+    "@types/node",
+    "cdk-iam-floyd",
+    "crypto-js",
+    "js-yaml",
+    "lodash.merge"
+  ],
+  "keywords": [
+    "ami",
+    "cdk",
+    "ec2",
+    "image builder",
+    "imagebuilder"
+  ],
+  "engines": {
+    "node": ">= 20.0.0"
+  },
+  "main": "lib/index.js",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0",
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/(test|src)/**/*(*.)@(spec|test).ts?(x)"
+    ],
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "clover",
+      "cobertura",
+      "text"
+    ],
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "watchPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-reports"
+        }
+      ]
+    ],
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.dev.json"
+      }
+    }
+  },
+  "types": "lib/index.d.ts",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "python": {
+        "distName": "jjrawlins.cdk-ami-builder",
+        "module": "jjrawlins.cdk_ami_builder"
+      },
+      "go": {
+        "moduleName": "github.com/jjrawlins/cdk-ami-builder-construct"
+      }
+    },
+    "tsc": {
+      "outDir": "lib",
+      "rootDir": "src"
+    }
+  },
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
+}
