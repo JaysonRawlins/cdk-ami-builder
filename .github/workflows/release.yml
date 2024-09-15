@@ -45,7 +45,7 @@ jobs:
         with:
           name: build-artifact
           path: dist
-          include-hidden-files: "true"
+          include-hidden-files: true
   release_github:
     name: Publish to GitHub Releases
     needs: release
