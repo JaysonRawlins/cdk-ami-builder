@@ -2,7 +2,7 @@ package jjrawlinscdkamibuilder
 
 import (
 	_jsii_ "github.com/aws/jsii-runtime-go/runtime"
-	_init_ "github.com/jjrawlins/cdk-ami-builder-construct/jjrawlinscdkamibuilder/jsii"
+	_init_ "github.com/jjrawlins/cdk-ami-builder/jjrawlinscdkamibuilder/jsii"
 
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awscloudwatch"
@@ -13,7 +13,7 @@ import (
 	"github.com/aws/aws-cdk-go/awscdk/v2/awssns"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
 	"github.com/aws/constructs-go/constructs/v10"
-	"github.com/jjrawlins/cdk-ami-builder-construct/jjrawlinscdkamibuilder/internal"
+	"github.com/jjrawlins/cdk-ami-builder/jjrawlinscdkamibuilder/internal"
 )
 
 // An AWS Lambda function which executes src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.

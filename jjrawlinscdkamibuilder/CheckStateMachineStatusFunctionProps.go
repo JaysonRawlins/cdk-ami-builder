@@ -42,18 +42,7 @@ type CheckStateMachineStatusFunctionProps struct {
 	// Default: - No ADOT instrumentation.
 	//
 	AdotInstrumentation *awslambda.AdotInstrumentationConfig `field:"optional" json:"adotInstrumentation" yaml:"adotInstrumentation"`
-	// Whether to allow the Lambda to send all ipv6 network traffic.
-	//
-	// If set to true, there will only be a single egress rule which allows all
-	// outbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the
-	// Lambda to connect to network targets using ipv6.
-	//
-	// Do not specify this property if the `securityGroups` or `securityGroup` property is set.
-	// Instead, configure `allowAllIpv6Outbound` directly on the security group.
-	// Default: false.
-	//
-	AllowAllIpv6Outbound *bool `field:"optional" json:"allowAllIpv6Outbound" yaml:"allowAllIpv6Outbound"`
-	// Whether to allow the Lambda to send all network traffic (except ipv6).
+	// Whether to allow the Lambda to send all network traffic.
 	//
 	// If set to false, you must individually add traffic rules to allow the
 	// Lambda to connect to network targets.
@@ -258,12 +247,6 @@ type CheckStateMachineStatusFunctionProps struct {
 	// Default: - A new profiling group will be created if `profiling` is set.
 	//
 	ProfilingGroup awscodeguruprofiler.IProfilingGroup `field:"optional" json:"profilingGroup" yaml:"profilingGroup"`
-	// Sets the Recursive Loop Protection for Lambda Function.
-	//
-	// It lets Lambda detect and terminate unintended recusrive loops.
-	// Default: RecursiveLoop.Terminate
-	//
-	RecursiveLoop awslambda.RecursiveLoop `field:"optional" json:"recursiveLoop" yaml:"recursiveLoop"`
 	// The maximum of concurrent executions you want to reserve for the function.
 	// See: https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html
 	//
