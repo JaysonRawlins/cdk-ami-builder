@@ -472,14 +472,14 @@ Environment variable options.
 ##### `addLayers` <a name="addLayers" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.addLayers"></a>
 
 ```typescript
-public addLayers(layers: ILayerVersion): void
+public addLayers(layers: ...ILayerVersion[]): void
 ```
 
 Adds one or more Lambda Layers to this Lambda function.
 
 ###### `layers`<sup>Required</sup> <a name="layers" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.addLayers.parameter.layers"></a>
 
-- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+- *Type:* ...aws-cdk-lib.aws_lambda.ILayerVersion[]
 
 the layers to be added.
 
@@ -1740,14 +1740,14 @@ Environment variable options.
 ##### `addLayers` <a name="addLayers" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.addLayers"></a>
 
 ```typescript
-public addLayers(layers: ILayerVersion): void
+public addLayers(layers: ...ILayerVersion[]): void
 ```
 
 Adds one or more Lambda Layers to this Lambda function.
 
 ###### `layers`<sup>Required</sup> <a name="layers" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.addLayers.parameter.layers"></a>
 
-- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+- *Type:* ...aws-cdk-lib.aws_lambda.ILayerVersion[]
 
 the layers to be added.
 
@@ -2415,8 +2415,7 @@ const checkStateMachineStatusFunctionProps: CheckStateMachineStatusFunctionProps
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.adotInstrumentation">adotInstrumentation</a></code> | <code>aws-cdk-lib.aws_lambda.AdotInstrumentationConfig</code> | Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllIpv6Outbound">allowAllIpv6Outbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all ipv6 network traffic. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic (except ipv6). |
+| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevel">applicationLogLevel</a></code> | <code>string</code> | Sets the application log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevelV2">applicationLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.ApplicationLogLevel</code> | Sets the application log level for the function. |
@@ -2447,7 +2446,6 @@ const checkStateMachineStatusFunctionProps: CheckStateMachineStatusFunctionProps
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.paramsAndSecrets">paramsAndSecrets</a></code> | <code>aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion</code> | Specify the configuration of Parameters and Secrets Extension. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.recursiveLoop">recursiveLoop</a></code> | <code>aws-cdk-lib.aws_lambda.RecursiveLoop</code> | Sets the Recursive Loop Protection for Lambda Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.runtimeManagementMode">runtimeManagementMode</a></code> | <code>aws-cdk-lib.aws_lambda.RuntimeManagementMode</code> | Sets the runtime management configuration for a function's version. |
@@ -2535,26 +2533,6 @@ Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation
 
 ---
 
-##### `allowAllIpv6Outbound`<sup>Optional</sup> <a name="allowAllIpv6Outbound" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllIpv6Outbound"></a>
-
-```typescript
-public readonly allowAllIpv6Outbound: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Whether to allow the Lambda to send all ipv6 network traffic.
-
-If set to true, there will only be a single egress rule which allows all
-outbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the
-Lambda to connect to network targets using ipv6.
-
-Do not specify this property if the `securityGroups` or `securityGroup` property is set.
-Instead, configure `allowAllIpv6Outbound` directly on the security group.
-
----
-
 ##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllOutbound"></a>
 
 ```typescript
@@ -2564,7 +2542,7 @@ public readonly allowAllOutbound: boolean;
 - *Type:* boolean
 - *Default:* true
 
-Whether to allow the Lambda to send all network traffic (except ipv6).
+Whether to allow the Lambda to send all network traffic.
 
 If set to false, you must individually add traffic rules to allow the
 Lambda to connect to network targets.
@@ -3037,21 +3015,6 @@ public readonly profilingGroup: IProfilingGroup;
 Profiling Group.
 
 > [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
-
----
-
-##### `recursiveLoop`<sup>Optional</sup> <a name="recursiveLoop" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.recursiveLoop"></a>
-
-```typescript
-public readonly recursiveLoop: RecursiveLoop;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.RecursiveLoop
-- *Default:* RecursiveLoop.Terminate
-
-Sets the Recursive Loop Protection for Lambda Function.
-
-It lets Lambda detect and terminate unintended recusrive loops.
 
 ---
 
@@ -3549,8 +3512,7 @@ const startStateMachineFunctionProps: StartStateMachineFunctionProps = { ... }
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.adotInstrumentation">adotInstrumentation</a></code> | <code>aws-cdk-lib.aws_lambda.AdotInstrumentationConfig</code> | Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllIpv6Outbound">allowAllIpv6Outbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all ipv6 network traffic. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic (except ipv6). |
+| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevel">applicationLogLevel</a></code> | <code>string</code> | Sets the application log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevelV2">applicationLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.ApplicationLogLevel</code> | Sets the application log level for the function. |
@@ -3581,7 +3543,6 @@ const startStateMachineFunctionProps: StartStateMachineFunctionProps = { ... }
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.paramsAndSecrets">paramsAndSecrets</a></code> | <code>aws-cdk-lib.aws_lambda.ParamsAndSecretsLayerVersion</code> | Specify the configuration of Parameters and Secrets Extension. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.recursiveLoop">recursiveLoop</a></code> | <code>aws-cdk-lib.aws_lambda.RecursiveLoop</code> | Sets the Recursive Loop Protection for Lambda Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.runtimeManagementMode">runtimeManagementMode</a></code> | <code>aws-cdk-lib.aws_lambda.RuntimeManagementMode</code> | Sets the runtime management configuration for a function's version. |
@@ -3669,26 +3630,6 @@ Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation
 
 ---
 
-##### `allowAllIpv6Outbound`<sup>Optional</sup> <a name="allowAllIpv6Outbound" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllIpv6Outbound"></a>
-
-```typescript
-public readonly allowAllIpv6Outbound: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Whether to allow the Lambda to send all ipv6 network traffic.
-
-If set to true, there will only be a single egress rule which allows all
-outbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the
-Lambda to connect to network targets using ipv6.
-
-Do not specify this property if the `securityGroups` or `securityGroup` property is set.
-Instead, configure `allowAllIpv6Outbound` directly on the security group.
-
----
-
 ##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllOutbound"></a>
 
 ```typescript
@@ -3698,7 +3639,7 @@ public readonly allowAllOutbound: boolean;
 - *Type:* boolean
 - *Default:* true
 
-Whether to allow the Lambda to send all network traffic (except ipv6).
+Whether to allow the Lambda to send all network traffic.
 
 If set to false, you must individually add traffic rules to allow the
 Lambda to connect to network targets.
@@ -4171,21 +4112,6 @@ public readonly profilingGroup: IProfilingGroup;
 Profiling Group.
 
 > [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
-
----
-
-##### `recursiveLoop`<sup>Optional</sup> <a name="recursiveLoop" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.recursiveLoop"></a>
-
-```typescript
-public readonly recursiveLoop: RecursiveLoop;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.RecursiveLoop
-- *Default:* RecursiveLoop.Terminate
-
-Sets the Recursive Loop Protection for Lambda Function.
-
-It lets Lambda detect and terminate unintended recusrive loops.
 
 ---
 

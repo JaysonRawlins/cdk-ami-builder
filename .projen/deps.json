@@ -1,7 +1,16 @@
 {
   "dependencies": [
     {
-      "name": "@types/crypto-js",
+      "name": "@aws-sdk/types",
+      "type": "build"
+    },
+    {
+      "name": "@stylistic/eslint-plugin",
+      "version": "^2",
+      "type": "build"
+    },
+    {
+      "name": "@types/axios",
       "type": "build"
     },
     {
@@ -9,49 +18,30 @@
       "type": "build"
     },
     {
-      "name": "@types/js-yaml",
-      "type": "build"
-    },
-    {
-      "name": "@types/lodash.merge",
+      "name": "@types/lodash",
       "type": "build"
     },
     {
       "name": "@types/node",
-      "version": "^20",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^5",
+      "version": "^8",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^5",
+      "version": "^8",
       "type": "build"
     },
     {
-      "name": "aws-cdk-lib",
-      "version": "^2.141.0",
-      "type": "build"
-    },
-    {
-      "name": "aws-cdk",
-      "version": "^2.141.0",
-      "type": "build"
-    },
-    {
-      "name": "constructs",
-      "version": "10.3.0",
+      "name": "commit-and-tag-version",
+      "version": "^12",
       "type": "build"
     },
     {
       "name": "esbuild",
-      "type": "build"
-    },
-    {
-      "name": "eslint-import-resolver-node",
       "type": "build"
     },
     {
@@ -64,7 +54,7 @@
     },
     {
       "name": "eslint",
-      "version": "^8",
+      "version": "^9",
       "type": "build"
     },
     {
@@ -73,7 +63,7 @@
     },
     {
       "name": "jest-junit",
-      "version": "^15",
+      "version": "^16",
       "type": "build"
     },
     {
@@ -82,6 +72,7 @@
     },
     {
       "name": "jsii-docgen",
+      "version": "^10.5.0",
       "type": "build"
     },
     {
@@ -90,21 +81,17 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.0.0",
+      "version": "~5.4.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.0.0",
+      "version": "~5.4.0",
       "type": "build"
     },
     {
       "name": "projen",
-      "type": "build"
-    },
-    {
-      "name": "standard-version",
-      "version": "^9",
+      "version": "0.91.6",
       "type": "build"
     },
     {
@@ -168,11 +155,6 @@
       "type": "bundled"
     },
     {
-      "name": "@types/node",
-      "version": "^18",
-      "type": "bundled"
-    },
-    {
       "name": "cdk-iam-floyd",
       "type": "bundled"
     },
@@ -185,31 +167,37 @@
       "type": "bundled"
     },
     {
+      "name": "lodash",
+      "type": "bundled"
+    },
+    {
       "name": "lodash.merge",
       "type": "bundled"
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.141.0",
+      "version": "^2.150.0",
       "type": "peer"
     },
     {
       "name": "constructs",
-      "version": "^10.3.0",
+      "version": "^10.3.2",
       "type": "peer"
     },
     {
-      "name": "@types/node",
-      "version": "^20",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-cdk-lib",
-      "version": "^2.141.0",
+      "name": "constructs",
       "type": "runtime"
     },
     {
       "name": "crypto-js",
+      "type": "runtime"
+    },
+    {
+      "name": "lodash",
+      "type": "runtime"
+    },
+    {
+      "name": "projen",
       "type": "runtime"
     }
   ],

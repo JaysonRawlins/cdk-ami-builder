@@ -6,7 +6,6 @@
     ".github/workflows/build.yml",
     ".github/workflows/release.yml",
     ".gitignore",
-    ".npmrc",
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",
