@@ -3,9 +3,11 @@ import { awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
 
-const cdkVersion = '2.141.0';
-const constructsVersion = '10.3.0';
-const minNodeVersion = '20.0.0';
+const cdkVersion = '2.150.0';
+const minNodeVersion = '20.9.0';
+const jsiiVersion = '~5.4.0';
+const constructsVersion = '10.3.2';
+const projenVersion = '0.91.6';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Jayson Rawlins',
   description: 'Creates an EC2 AMI using an Image Builder Pipeline and returns the AMI ID.',
@@ -15,32 +17,32 @@ const project = new awscdk.AwsCdkConstructLibrary({
   minNodeVersion: minNodeVersion,
   cdkVersion: cdkVersion,
   constructsVersion: constructsVersion,
+  projenVersion: projenVersion,
   lambdaOptions: {
-    runtime: awscdk.LambdaRuntime.NODEJS_18_X,
+    runtime: awscdk.LambdaRuntime.NODEJS_20_X,
   },
   defaultReleaseBranch: 'main',
   license: 'Apache-2.0',
-  jsiiVersion: '~5.0.0',
+  jsiiVersion: jsiiVersion,
   name: '@jjrawlins/cdk-ami-builder',
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/jjrawlins/cdk-ami-builder-construct.git',
+  repositoryUrl: 'https://github.com/jjrawlins/cdk-ami-builder.git',
   githubOptions: {
     mergify: false,
     pullRequestLint: false,
   },
   depsUpgrade: false,
   deps: [
-    `aws-cdk-lib@^${cdkVersion}`,
-    '@types/node@^20',
+    'projen',
+    'constructs',
     'crypto-js',
+    'lodash',
   ],
   devDeps: [
-    `aws-cdk-lib@^${cdkVersion}`,
-    `aws-cdk@^${cdkVersion}`,
-    '@types/js-yaml',
-    '@types/lodash.merge',
-    '@types/crypto-js',
-    '@types/node@^18',
+    '@types/axios',
+    '@aws-sdk/types',
+    '@types/node',
+    '@types/lodash',
   ],
   bundledDeps: [
     '@aws-sdk/client-sqs',
@@ -52,7 +54,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-sdk/client-s3',
     '@aws-sdk/client-secrets-manager',
     '@aws-sdk/client-sfn',
-    '@types/node@^18',
     '@types/aws-lambda',
     '@types/js-yaml',
     'js-yaml',
@@ -60,6 +61,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@types/crypto-js',
     'crypto-js',
     'cdk-iam-floyd',
+    'lodash',
   ],
   gitignore: [
     'cdk.out',
@@ -72,11 +74,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmAccess: NpmAccess.PUBLIC,
   releaseToNpm: true,
   publishToPypi: {
-    distName: 'jjrawlins.cdk-ami-builder',
-    module: 'jjrawlins.cdk_ami_builder',
+    distName: 'jjrawlins_cdk-ami-builder',
+    module: 'jjrawlins_cdk_ami_builder',
   },
   publishToGo: {
-    moduleName: 'github.com/jjrawlins/cdk-ami-builder-construct',
+    moduleName: 'github.com/jjrawlins/cdk-ami-builder',
   },
 });
 
@@ -84,11 +86,5 @@ project.github!.actions.set('actions/checkout', 'actions/checkout@v4');
 project.github!.actions.set('actions/setup-node', 'actions/setup-node@v4');
 project.github!.actions.set('actions/upload-artifact', 'actions/upload-artifact@v4');
 project.github!.actions.set('actions/download-artifact', 'actions/download-artifact@v4');
-
-
-const releaseWorkflow = project.github!.tryFindWorkflow('release');
-if (releaseWorkflow) {
-  releaseWorkflow.file!.addOverride('jobs.release.steps.7.with.include-hidden-files', true);
-}
 
 project.synth();

@@ -39,7 +39,7 @@ npm install -g aws-cdk
 Next, add the `ImagePipeline` construct to your CDK project:
 
 ```bash
-npm install '@layerborn/cdk-ami-builder' --save
+npm install '@jjrawlins/cdk-ami-builder' --save
 ```
 
 ## Usage Example
@@ -51,7 +51,7 @@ Below is an example of how to use the `ImagePipeline` construct in your CDK appl
 First, import the `ImagePipeline` construct into your CDK application:
 
 ```go
-import { ImagePipeline } from '@layerborn/cdk-ami-builder';
+import { ImagePipeline } from '@jjrawlins/cdk-ami-builder';
 ```
 
 ### Using the Construct

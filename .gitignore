@@ -34,7 +34,6 @@ cdk.out/*
 assets
 cdk.context.json
 .dccache
-!/.projenrc.js
 /test-reports/
 junit.xml
 /coverage/
@@ -43,7 +42,6 @@ junit.xml
 /dist/version.txt
 !/.github/workflows/release.yml
 !/.github/pull_request_template.md
-!/.npmrc
 !/test/
 !/tsconfig.dev.json
 !/src/
@@ -57,3 +55,4 @@ tsconfig.json
 !/src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus-function.ts
 !/src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm-function.ts
 !/src/Lambdas/StartStateMachine/StartStateMachine-function.ts
+!/.projenrc.ts
