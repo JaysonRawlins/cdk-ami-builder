@@ -62,7 +62,7 @@
       "description": "Create a JavaScript bundle from src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+          "exec": "esbuild --bundle src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -71,7 +71,7 @@
       "description": "Continuously update the JavaScript bundle from src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+          "exec": "esbuild --bundle src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -80,7 +80,7 @@
       "description": "Create a JavaScript bundle from src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+          "exec": "esbuild --bundle src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -89,7 +89,7 @@
       "description": "Continuously update the JavaScript bundle from src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+          "exec": "esbuild --bundle src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -98,7 +98,7 @@
       "description": "Create a JavaScript bundle from src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/StartStateMachine/StartStateMachine.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
+          "exec": "esbuild --bundle src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/StartStateMachine/StartStateMachine.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -107,7 +107,7 @@
       "description": "Continuously update the JavaScript bundle from src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts --target=\"node20\" --platform=\"node\" --outfile=\"assets/Lambdas/StartStateMachine/StartStateMachine.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
+          "exec": "esbuild --bundle src/Lambdas/StartStateMachine/StartStateMachine.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/Lambdas/StartStateMachine/StartStateMachine.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -287,6 +287,10 @@
         }
       ]
     },
+    "post-upgrade": {
+      "name": "post-upgrade",
+      "description": "Runs after upgrading dependencies"
+    },
     "pre-compile": {
       "name": "pre-compile",
       "description": "Prepare the project for compilation",
@@ -356,6 +360,30 @@
       "steps": [
         {
           "builtin": "release/reset-version"
+        }
+      ]
+    },
+    "upgrade": {
+      "name": "upgrade",
+      "description": "upgrade dependencies",
+      "env": {
+        "CI": "0"
+      },
+      "steps": [
+        {
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@types/axios,@types/jest,@types/lodash,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-pacmak,ts-jest,ts-node,typescript,@aws-sdk/client-ec2,@aws-sdk/client-ecs,@aws-sdk/client-kms,@aws-sdk/client-s3,@aws-sdk/client-secrets-manager,@aws-sdk/client-sfn,@aws-sdk/client-sns,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/crypto-js,@types/js-yaml,cdk-iam-floyd,crypto-js,js-yaml,lodash,lodash.merge,constructs"
+        },
+        {
+          "exec": "yarn install --check-files"
+        },
+        {
+          "exec": "yarn upgrade @aws-sdk/types @stylistic/eslint-plugin @types/axios @types/jest @types/lodash @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest ts-node typescript @aws-sdk/client-ec2 @aws-sdk/client-ecs @aws-sdk/client-kms @aws-sdk/client-s3 @aws-sdk/client-secrets-manager @aws-sdk/client-sfn @aws-sdk/client-sns @aws-sdk/client-sqs @aws-sdk/client-ssm @types/aws-lambda @types/crypto-js @types/js-yaml cdk-iam-floyd crypto-js js-yaml lodash lodash.merge aws-cdk-lib constructs"
+        },
+        {
+          "exec": "npx projen"
+        },
+        {
+          "spawn": "post-upgrade"
         }
       ]
     },

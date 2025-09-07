@@ -1,0 +1,66 @@
+queue_rules:
+  - name: default
+    update_method: merge
+    queue_conditions:
+      - label = automerge
+      - -label~=(do-not-merge)
+      - status-success=build
+      - status-success=build
+      - status-success=package-js
+      - status-success=package-python
+      - status-success=package-go
+      - -author=dependabot[bot]
+      - -author=projenbuildmanager[bot]
+    merge_method: squash
+    commit_message_template: |-
+      {{ title }} (#{{ number }})
+
+      {{ body }}
+pull_request_rules:
+  - name: Automatic Merge Dependebot Prs
+    description: Merge when PR passes all branch protection and has label automerge
+    conditions:
+      - author=dependabot[bot]
+      - -label~=(do-not-merge)
+      - status-success=build
+    actions:
+      merge:
+        method: squash
+  - name: Label conflicting pull requests
+    description: Add a label to a pull request with conflict to spot it easily
+    conditions:
+      - conflict
+      - -closed
+    actions:
+      label:
+        toggle:
+          - conflict
+  - name: Auto-merge dependency upgrade PRs Constructs
+    conditions:
+      - head=github-actions/upgrade-main
+      - -label~=(do-not-merge)
+      - status-success=build
+    actions:
+      merge:
+        method: squash
+  - name: Auto-merge dependency upgrade PRs CDK Stacks
+    conditions:
+      - head=github-actions/upgrade
+      - -label~=(do-not-merge)
+      - status-success=build
+    actions:
+      merge:
+        method: squash
+  - name: Queue PRs with automerge label
+    conditions:
+      - label = automerge
+      - -label~=(do-not-merge)
+      - status-success=build
+      - status-success=package-js
+      - status-success=package-python
+      - status-success=package-go
+    actions:
+      queue:
+        name: default
+merge_queue:
+  max_parallel_checks: 1

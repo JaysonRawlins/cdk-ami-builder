@@ -81,17 +81,17 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.4.0",
+      "version": "~5.8.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.4.0",
+      "version": "~5.8.0",
       "type": "build"
     },
     {
       "name": "projen",
-      "version": "0.91.6",
+      "version": "^0.95.4",
       "type": "build"
     },
     {
@@ -181,7 +181,7 @@
     },
     {
       "name": "constructs",
-      "version": "^10.3.2",
+      "version": "^10.4.2",
       "type": "peer"
     },
     {
@@ -194,10 +194,6 @@
     },
     {
       "name": "lodash",
-      "type": "runtime"
-    },
-    {
-      "name": "projen",
       "type": "runtime"
     }
   ],

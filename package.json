@@ -3,7 +3,7 @@
   "description": "Creates an EC2 AMI using an Image Builder Pipeline and returns the AMI ID.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jjrawlins/cdk-ami-builder.git"
+    "url": "https://github.com/JaysonRawlins/cdk-ami-builder.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -28,11 +28,13 @@
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
+    "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
     "test": "npx projen test",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
+    "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
@@ -47,7 +49,7 @@
     "@types/axios": "^0.14.4",
     "@types/jest": "^29.5.12",
     "@types/lodash": "^4.17.14",
-    "@types/node": "^20.12.11",
+    "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk-lib": "2.150.0",
@@ -58,19 +60,19 @@
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
     "jest-junit": "^16",
-    "jsii": "~5.4.0",
+    "jsii": "~5.8.0",
     "jsii-diff": "^1.98.0",
     "jsii-docgen": "^10.5.0",
     "jsii-pacmak": "^1.98.0",
-    "jsii-rosetta": "~5.4.0",
-    "projen": "0.91.6",
+    "jsii-rosetta": "~5.8.0",
+    "projen": "^0.95.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.150.0",
-    "constructs": "^10.3.2"
+    "constructs": "^10.4.2"
   },
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.574.0",
@@ -90,8 +92,7 @@
     "crypto-js": "^4.2.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "lodash.merge": "^4.6.2",
-    "projen": "^0.91.1"
+    "lodash.merge": "^4.6.2"
   },
   "bundledDependencies": [
     "@aws-sdk/client-ec2",
@@ -112,6 +113,12 @@
     "lodash",
     "lodash.merge"
   ],
+  "resolutions": {
+    "brace-expansion": "1.1.12",
+    "form-data": "^4.0.4",
+    "@eslint/plugin-kit": "^0.3.4",
+    "constructs": "10.4.2"
+  },
   "keywords": [
     "ami",
     "cdk",
@@ -120,7 +127,7 @@
     "imagebuilder"
   ],
   "engines": {
-    "node": ">= 20.9.0"
+    "node": ">= 22.x"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
@@ -183,7 +190,8 @@
         "module": "jjrawlins_cdk_ami_builder"
       },
       "go": {
-        "moduleName": "github.com/jjrawlins/cdk-ami-builder"
+        "moduleName": "github.com/JaysonRawlins/cdk-ami-builder",
+        "packageName": "cdk-ami-builder"
       }
     },
     "tsc": {
