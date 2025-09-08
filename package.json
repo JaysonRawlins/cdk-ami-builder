@@ -186,7 +186,7 @@
     "outdir": "dist",
     "targets": {
       "python": {
-        "distName": "jjrawlins_cdk-ami-builder",
+        "distName": "jjrawlins-cdk-ami-builder",
         "module": "jjrawlins_cdk_ami_builder"
       },
       "go": {

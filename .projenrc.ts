@@ -52,7 +52,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   depsUpgrade: true,
   publishToPypi: {
-    distName: 'jjrawlins_cdk-ami-builder',
+    distName: 'jjrawlins-cdk-ami-builder',
     module: 'jjrawlins_cdk_ami_builder',
   },
   publishToGo: {
