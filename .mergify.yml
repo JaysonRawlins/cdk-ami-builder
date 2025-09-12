@@ -8,9 +8,11 @@ queue_rules:
       - status-success=package-js
       - status-success=package-python
       - status-success=package-go
-      - author=dependabot[bot]
-      - author=projenbuildmanager[bot]
-      - author=jjrawlins
+      # trigger if ANY of these is the commit author
+      - or:
+          - author=dependabot[bot]
+          - author=projenbuildmanager[bot]
+          - author=jjrawlins
     merge_method: squash
     commit_message_template: |-
       {{ title }} (#{{ number }})
