@@ -65,6 +65,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'lodash',
   ],
   devDeps: [
+    `aws-cdk-lib@${cdkVersion}`,
+    `constructs@${constructsVersion}`,
     '@types/axios',
     '@aws-sdk/types',
     '@types/node',
