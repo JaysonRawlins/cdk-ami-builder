@@ -8,7 +8,6 @@ queue_rules:
       - status-success=package-js
       - status-success=package-python
       - status-success=package-go
-      # trigger if ANY of these is the commit author
       - or:
           - author=dependabot[bot]
           - author=projenbuildmanager[bot]
@@ -18,6 +17,7 @@ queue_rules:
       {{ title }} (#{{ number }})
 
       {{ body }}
+    autoqueue: true
 pull_request_rules:
   - name: Automatic Merge Dependebot Prs
     description: Merge when PR passes all branch protection and has label automerge
