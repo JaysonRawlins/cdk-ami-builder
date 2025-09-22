@@ -13,3 +13,4 @@ updates:
     ignore:
       ignore:
       - dependency-name: projen
+      - dependency-name: '@types/node'
