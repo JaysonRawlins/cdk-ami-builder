@@ -5,7 +5,7 @@ import { NpmAccess } from 'projen/lib/javascript';
 const cdkCliVersion = '2.1029.2';
 const minNodeVersion = '20.9.0';
 const jsiiVersion = '~5.8.0';
-const cdkVersion = '2.85.0'; // Use definitionBody (new way)
+const cdkVersion = '2.85.0'; // Required
 const projenVersion = '^0.95.4'; // Does not affect consumers of the library
 const minConstructsVersion = '10.0.0'; // Minimum version to support CDK v2
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -58,6 +58,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToGo: {
     moduleName: 'github.com/JaysonRawlins/cdk-ami-builder',
     packageName: 'cdk-ami-builder',
+  },
+  publishToNuget: {
+    packageId: 'jjrawlins.CdkAmiBuilder',
+    dotNetNamespace: 'jjrawlins.CdkAmiBuilder',
   },
   peerDeps: [
     'aws-cdk-lib', // recommend using version 189 or greater due to security updates

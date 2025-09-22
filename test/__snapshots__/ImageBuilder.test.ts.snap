@@ -10,6 +10,15 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
     },
   },
   "Resources": {
+    "ImagePipelineTestCheckStateMachineFunctionLogGroupB49B6409": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/TestStack-CheckStateMachineStatusFunction",
+        "RetentionInDays": 1,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
     "ImagePipelineTestCheckStateMachineStatusFunctionC5041832": {
       "DependsOn": [
         "ImagePipelineTestCheckStateMachineStatusFunctionServiceRoleDefaultPolicyB0A9053C",
@@ -27,6 +36,12 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
           },
         },
         "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogFormat": "Text",
+          "LogGroup": {
+            "Ref": "ImagePipelineTestCheckStateMachineFunctionLogGroupB49B6409",
+          },
+        },
         "MemorySize": 128,
         "Role": {
           "Fn::GetAtt": [
@@ -879,6 +894,12 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
           },
         },
         "Handler": "index.handler",
+        "LoggingConfig": {
+          "logFormat": "Text",
+          "logGroup": {
+            "Ref": "ImagePipelineTestStartStateMachineFunctionLogGroupB88F15C0",
+          },
+        },
         "MemorySize": 128,
         "Role": {
           "Fn::GetAtt": [
@@ -890,6 +911,15 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
         "Timeout": 720,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "ImagePipelineTestStartStateMachineFunctionLogGroupB88F15C0": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/TestStack-StartStateMachineFunction",
+        "RetentionInDays": 1,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
     },
     "ImagePipelineTestStartStateMachineFunctionServiceRole5773B2A8": {
       "Properties": {

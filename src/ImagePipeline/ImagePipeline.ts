@@ -16,6 +16,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Role } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Provider } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import * as CryptoJS from 'crypto-js';
@@ -317,7 +319,6 @@ export class ImagePipeline extends Construct {
         securityGroupIds: [defaultGroup.securityGroupId],
         subnetId: props.vpc.publicSubnets[0].subnetId,
       });
-
     } else {
       infrastructureConfig = new imagebuilder.CfnInfrastructureConfiguration(this, 'InfrastructureConfiguration', {
         instanceProfileName: instanceProfileName,
@@ -513,6 +514,18 @@ export class ImagePipeline extends Construct {
         ],
       });
 
+    const startStateMachineFunctionLogGroup = new LogGroup(this, 'StartStateMachineFunctionLogGroup', {
+      logGroupName: `/aws/lambda/${stackName}-StartStateMachineFunction`,
+      retention: RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const cfnStartStateMachineFunction = startStateMachineFunction.node.defaultChild as lambda.CfnFunction;
+    cfnStartStateMachineFunction.addPropertyOverride('LoggingConfig', {
+      logGroup: startStateMachineFunctionLogGroup.logGroupName,
+      logFormat: 'Text',
+    });
+
     const checkStateMachineStatusFunction = new CheckStateMachineStatusFunction(this, 'CheckStateMachineStatusFunction', {
       description: 'CheckStateMachineStatusFunction',
       memorySize: 128,
@@ -558,6 +571,19 @@ export class ImagePipeline extends Construct {
         }),
       ],
     });
+
+    const checkStateMachineFunctionLogGroup = new LogGroup(this, 'CheckStateMachineFunctionLogGroup', {
+      logGroupName: `/aws/lambda/${stackName}-CheckStateMachineStatusFunction`,
+      retention: RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const cfnCheckStateMachineStatusFunction = checkStateMachineStatusFunction.node.defaultChild as lambda.CfnFunction;
+    cfnCheckStateMachineStatusFunction.addPropertyOverride('LoggingConfig', {
+      LogGroup: checkStateMachineFunctionLogGroup.logGroupName,
+      LogFormat: 'Text',
+    });
+
 
     const provider = new Provider(this, 'ResourceProvider', {
       onEventHandler: startStateMachineFunction,

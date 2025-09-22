@@ -24,6 +24,7 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
     "package:go": "npx projen package:go",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
@@ -188,6 +189,10 @@
       "python": {
         "distName": "jjrawlins-cdk-ami-builder",
         "module": "jjrawlins_cdk_ami_builder"
+      },
+      "dotnet": {
+        "namespace": "jjrawlins.CdkAmiBuilder",
+        "packageId": "jjrawlins.CdkAmiBuilder"
       },
       "go": {
         "moduleName": "github.com/JaysonRawlins/cdk-ami-builder",
