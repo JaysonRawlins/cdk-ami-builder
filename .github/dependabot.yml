@@ -6,12 +6,10 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    versioning-strategy: lockfile-only
+    directory: / # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: daily
     ignore:
-      # Ignore aws-cdk-lib updates to maintain minimum version control
-      - dependency-name: "aws-cdk-lib"
-        update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-      # Ignore @types/node updates
-      - dependency-name: "@types/node"
+      ignore:
+      - dependency-name: projen

@@ -11,6 +11,7 @@
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",
+    ".tool-versions",
     "LICENSE",
     "src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus-function.ts",
     "src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm-function.ts",

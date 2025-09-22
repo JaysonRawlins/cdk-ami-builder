@@ -17,7 +17,6 @@ import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Role } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Provider } from 'aws-cdk-lib/custom-resources';
-import { Statement } from 'cdk-iam-floyd';
 import { Construct } from 'constructs';
 import * as CryptoJS from 'crypto-js';
 import * as yaml from 'js-yaml';
@@ -477,6 +476,13 @@ export class ImagePipeline extends Construct {
         memorySize: 128,
         timeout: Duration.minutes(12),
         initialPolicy: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+
+            ],
+            resources: ['*'],
+          }),
           new Statement.States().allow()
             .toStartExecution()
             .toGetExecutionHistory()
@@ -582,7 +588,7 @@ export class ImagePipeline extends Construct {
       role: stateMachineRole,
     });
 
-    const effectiveRemovalPolicy = props.debugImagePipeline === true ? RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE : RemovalPolicy.DESTROY;
+    const effectiveRemovalPolicy = props.debugImagePipeline === true ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY;
 
     const componentsHash = this.stringToMD5(JSON.stringify(props.components));
     const imagePipeline = new CustomResource(this, 'CustomResource',
