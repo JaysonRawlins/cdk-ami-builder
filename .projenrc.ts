@@ -121,7 +121,7 @@ project.package.addField('resolutions', {
   'form-data': '^4.0.4',
   '@eslint/plugin-kit': '^0.3.4',
   'aws-cdk-lib': '>=2.85.0 <3.0.0',
-  'constructs': '>=10.0.0 <11.0.0',
+  'constructs': '>=10.0.5 <11.0.0',
 });
 
 project.github!.tryFindWorkflow('upgrade-main')!.file!.addOverride('jobs.upgrade.permissions.id-token', 'write');

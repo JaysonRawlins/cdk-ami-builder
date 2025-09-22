@@ -522,8 +522,8 @@ export class ImagePipeline extends Construct {
 
     const cfnStartStateMachineFunction = startStateMachineFunction.node.defaultChild as lambda.CfnFunction;
     cfnStartStateMachineFunction.addPropertyOverride('LoggingConfig', {
-      logGroup: startStateMachineFunctionLogGroup.logGroupName,
-      logFormat: 'Text',
+      LogGroup: startStateMachineFunctionLogGroup.logGroupName,
+      LogFormat: 'Text',
     });
 
     const checkStateMachineStatusFunction = new CheckStateMachineStatusFunction(this, 'CheckStateMachineStatusFunction', {
