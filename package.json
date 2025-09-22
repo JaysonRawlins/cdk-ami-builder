@@ -53,7 +53,7 @@
     "@types/node": "^20.9.0",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "aws-cdk": "2.85.0",
+    "aws-cdk": "2.1029.2",
     "aws-cdk-lib": "2.85.0",
     "commit-and-tag-version": "^12",
     "esbuild": "^0.25.10",

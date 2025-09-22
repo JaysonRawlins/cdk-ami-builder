@@ -77,7 +77,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'lodash',
   ],
   devDeps: [ // Does not affect consumers of the library
-    `aws-cdk@${cdkVersion}`,
+    `aws-cdk@${cdkCliVersion}`,
     `aws-cdk-lib@${cdkVersion}`,
     `constructs@^${minConstructsVersion}`,
     '@types/axios',
