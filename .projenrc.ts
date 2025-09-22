@@ -1,5 +1,6 @@
 import { awscdk, TextFile } from 'projen';
 
+import { GithubCredentials } from 'projen/lib/github';
 import { NpmAccess } from 'projen/lib/javascript';
 
 const cdkCliVersion = '2.1029.2';
@@ -28,6 +29,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/JaysonRawlins/cdk-ami-builder.git',
   githubOptions: {
+    projenCredentials: GithubCredentials.fromApp({
+      appIdSecret: 'PROJEN_APP_ID',
+      privateKeySecret: 'PROJEN_APP_PRIVATE_KEY',
+    }),
     mergify: false,
     pullRequestLintOptions: {
       semanticTitleOptions: {
@@ -148,6 +153,8 @@ project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.id-token', 'write');
 
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.packages', 'write');
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.id-token', 'write');
 
 /** * For the release jobs, we need to be able to read from packages and also need id-token permissions for OIDC to authenticate to the registry.
  */
@@ -166,6 +173,10 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_golang.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_golang.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_golang.permissions.contents', 'write');
+
+project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.id-token', 'write');
+project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.packages', 'read');
+project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.contents', 'write');
 
 new TextFile(project, '.tool-versions', {
   lines: [
