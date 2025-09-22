@@ -54,10 +54,7 @@ new CheckStateMachineStatusFunction(scope: Construct, id: string, props?: CheckS
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeCompositePrincipal">grantInvokeCompositePrincipal</a></code> | Grant multiple principals the ability to invoke this Lambda via CompositePrincipal. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeLatestVersion">grantInvokeLatestVersion</a></code> | Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeVersion">grantInvokeVersion</a></code> | Grant the given identity permissions to invoke the given version of this Lambda. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.metric">metric</a></code> | Return the given named metric for this Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
@@ -108,11 +105,11 @@ public addEventSource(source: IEventSource): void
 
 Adds an event source to this function.
 
-Event sources are implemented in the aws-cdk-lib/aws-lambda-event-sources module.
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
 
 The following example adds an SQS Queue as an event source:
 ```
-import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 myFunction.addEventSource(new SqsEventSource(myQueue));
 ```
 
@@ -249,34 +246,6 @@ Grant the given identity permissions to invoke this Lambda.
 
 ---
 
-##### `grantInvokeCompositePrincipal` <a name="grantInvokeCompositePrincipal" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeCompositePrincipal"></a>
-
-```typescript
-public grantInvokeCompositePrincipal(compositePrincipal: CompositePrincipal): Grant[]
-```
-
-Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.
-
-###### `compositePrincipal`<sup>Required</sup> <a name="compositePrincipal" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeCompositePrincipal.parameter.compositePrincipal"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.CompositePrincipal
-
----
-
-##### `grantInvokeLatestVersion` <a name="grantInvokeLatestVersion" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeLatestVersion"></a>
-
-```typescript
-public grantInvokeLatestVersion(grantee: IGrantable): Grant
-```
-
-Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeLatestVersion.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
 ##### `grantInvokeUrl` <a name="grantInvokeUrl" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeUrl"></a>
 
 ```typescript
@@ -288,26 +257,6 @@ Grant the given identity permissions to invoke this Lambda Function URL.
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeUrl.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
-##### `grantInvokeVersion` <a name="grantInvokeVersion" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeVersion"></a>
-
-```typescript
-public grantInvokeVersion(grantee: IGrantable, version: IVersion): Grant
-```
-
-Grant the given identity permissions to invoke the given version of this Lambda.
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeVersion.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
-###### `version`<sup>Required</sup> <a name="version" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.grantInvokeVersion.parameter.version"></a>
-
-- *Type:* aws-cdk-lib.aws_lambda.IVersion
 
 ---
 
@@ -637,9 +586,6 @@ CheckStateMachineStatusFunction.fromFunctionArn(scope: Construct, id: string, fu
 
 Import a lambda function into the CDK using its ARN.
 
-For `Function.addPermissions()` to work on this imported lambda, make sure that is
-in the same account and region as the stack you are importing it into.
-
 ###### `scope`<sup>Required</sup> <a name="scope" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.fromFunctionArn.parameter.scope"></a>
 
 - *Type:* constructs.Construct
@@ -667,9 +613,6 @@ CheckStateMachineStatusFunction.fromFunctionAttributes(scope: Construct, id: str
 ```
 
 Creates a Lambda function object which represents a function not defined within this stack.
-
-For `Function.addPermissions()` to work on this imported lambda, set the sameEnvironment property to true
-if this imported lambda is in the same account and region as the stack you are importing it into.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunction.fromFunctionAttributes.parameter.scope"></a>
 
@@ -1322,10 +1265,7 @@ new StartStateMachineFunction(scope: Construct, id: string, props?: StartStateMa
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeCompositePrincipal">grantInvokeCompositePrincipal</a></code> | Grant multiple principals the ability to invoke this Lambda via CompositePrincipal. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeLatestVersion">grantInvokeLatestVersion</a></code> | Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeVersion">grantInvokeVersion</a></code> | Grant the given identity permissions to invoke the given version of this Lambda. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.metric">metric</a></code> | Return the given named metric for this Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunction.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
@@ -1376,11 +1316,11 @@ public addEventSource(source: IEventSource): void
 
 Adds an event source to this function.
 
-Event sources are implemented in the aws-cdk-lib/aws-lambda-event-sources module.
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
 
 The following example adds an SQS Queue as an event source:
 ```
-import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 myFunction.addEventSource(new SqsEventSource(myQueue));
 ```
 
@@ -1517,34 +1457,6 @@ Grant the given identity permissions to invoke this Lambda.
 
 ---
 
-##### `grantInvokeCompositePrincipal` <a name="grantInvokeCompositePrincipal" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeCompositePrincipal"></a>
-
-```typescript
-public grantInvokeCompositePrincipal(compositePrincipal: CompositePrincipal): Grant[]
-```
-
-Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.
-
-###### `compositePrincipal`<sup>Required</sup> <a name="compositePrincipal" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeCompositePrincipal.parameter.compositePrincipal"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.CompositePrincipal
-
----
-
-##### `grantInvokeLatestVersion` <a name="grantInvokeLatestVersion" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeLatestVersion"></a>
-
-```typescript
-public grantInvokeLatestVersion(grantee: IGrantable): Grant
-```
-
-Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeLatestVersion.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
 ##### `grantInvokeUrl` <a name="grantInvokeUrl" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeUrl"></a>
 
 ```typescript
@@ -1556,26 +1468,6 @@ Grant the given identity permissions to invoke this Lambda Function URL.
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeUrl.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
-##### `grantInvokeVersion` <a name="grantInvokeVersion" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeVersion"></a>
-
-```typescript
-public grantInvokeVersion(grantee: IGrantable, version: IVersion): Grant
-```
-
-Grant the given identity permissions to invoke the given version of this Lambda.
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeVersion.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
----
-
-###### `version`<sup>Required</sup> <a name="version" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.grantInvokeVersion.parameter.version"></a>
-
-- *Type:* aws-cdk-lib.aws_lambda.IVersion
 
 ---
 
@@ -1905,9 +1797,6 @@ StartStateMachineFunction.fromFunctionArn(scope: Construct, id: string, function
 
 Import a lambda function into the CDK using its ARN.
 
-For `Function.addPermissions()` to work on this imported lambda, make sure that is
-in the same account and region as the stack you are importing it into.
-
 ###### `scope`<sup>Required</sup> <a name="scope" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.fromFunctionArn.parameter.scope"></a>
 
 - *Type:* constructs.Construct
@@ -1935,9 +1824,6 @@ StartStateMachineFunction.fromFunctionAttributes(scope: Construct, id: string, a
 ```
 
 Creates a Lambda function object which represents a function not defined within this stack.
-
-For `Function.addPermissions()` to work on this imported lambda, set the sameEnvironment property to true
-if this imported lambda is in the same account and region as the stack you are importing it into.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunction.fromFunctionAttributes.parameter.scope"></a>
 
@@ -2417,8 +2303,6 @@ const checkStateMachineStatusFunctionProps: CheckStateMachineStatusFunctionProps
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.adotInstrumentation">adotInstrumentation</a></code> | <code>aws-cdk-lib.aws_lambda.AdotInstrumentationConfig</code> | Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevel">applicationLogLevel</a></code> | <code>string</code> | Sets the application log level for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevelV2">applicationLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.ApplicationLogLevel</code> | Sets the application log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
@@ -2434,11 +2318,7 @@ const checkStateMachineStatusFunctionProps: CheckStateMachineStatusFunctionProps
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.ipv6AllowedForDualStack">ipv6AllowedForDualStack</a></code> | <code>boolean</code> | Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logFormat">logFormat</a></code> | <code>string</code> | Sets the logFormat for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.loggingFormat">loggingFormat</a></code> | <code>aws-cdk-lib.aws_lambda.LoggingFormat</code> | Sets the loggingFormat for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The log group the function sends logs to. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
@@ -2450,9 +2330,6 @@ const checkStateMachineStatusFunctionProps: CheckStateMachineStatusFunctionProps
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.runtimeManagementMode">runtimeManagementMode</a></code> | <code>aws-cdk-lib.aws_lambda.RuntimeManagementMode</code> | Sets the runtime management configuration for a function's version. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.snapStart">snapStart</a></code> | <code>aws-cdk-lib.aws_lambda.SnapStartConf</code> | Enable SnapStart for Lambda Function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.systemLogLevel">systemLogLevel</a></code> | <code>string</code> | Sets the system log level for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.systemLogLevelV2">systemLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.SystemLogLevel</code> | Sets the system log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
@@ -2547,9 +2424,6 @@ Whether to allow the Lambda to send all network traffic.
 If set to false, you must individually add traffic rules to allow the
 Lambda to connect to network targets.
 
-Do not specify this property if the `securityGroups` or `securityGroup` property is set.
-Instead, configure `allowAllOutbound` directly on the security group.
-
 ---
 
 ##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.allowPublicSubnet"></a>
@@ -2566,34 +2440,6 @@ Lambda Functions in a public subnet can NOT access the internet.
 Use this property to acknowledge this limitation and still place the function in a public subnet.
 
 > [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
-
----
-
-##### ~~`applicationLogLevel`~~<sup>Optional</sup> <a name="applicationLogLevel" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevel"></a>
-
-- *Deprecated:* Use `applicationLogLevelV2` as a property instead.
-
-```typescript
-public readonly applicationLogLevel: string;
-```
-
-- *Type:* string
-- *Default:* "INFO"
-
-Sets the application log level for the function.
-
----
-
-##### `applicationLogLevelV2`<sup>Optional</sup> <a name="applicationLogLevelV2" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.applicationLogLevelV2"></a>
-
-```typescript
-public readonly applicationLogLevelV2: ApplicationLogLevel;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.ApplicationLogLevel
-- *Default:* ApplicationLogLevel.INFO
-
-Sets the application log level for the function.
 
 ---
 
@@ -2810,21 +2656,6 @@ Specify the version of CloudWatch Lambda insights to use for monitoring.
 
 ---
 
-##### `ipv6AllowedForDualStack`<sup>Optional</sup> <a name="ipv6AllowedForDualStack" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.ipv6AllowedForDualStack"></a>
-
-```typescript
-public readonly ipv6AllowedForDualStack: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
-
-Only used if 'vpc' is supplied.
-
----
-
 ##### `layers`<sup>Optional</sup> <a name="layers" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.layers"></a>
 
 ```typescript
@@ -2839,55 +2670,6 @@ A list of layers to add to the function's execution environment.
 You can configure your Lambda function to pull in
 additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
 that can be used by multiple functions.
-
----
-
-##### ~~`logFormat`~~<sup>Optional</sup> <a name="logFormat" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logFormat"></a>
-
-- *Deprecated:* Use `loggingFormat` as a property instead.
-
-```typescript
-public readonly logFormat: string;
-```
-
-- *Type:* string
-- *Default:* "Text"
-
-Sets the logFormat for the function.
-
----
-
-##### `loggingFormat`<sup>Optional</sup> <a name="loggingFormat" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.loggingFormat"></a>
-
-```typescript
-public readonly loggingFormat: LoggingFormat;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.LoggingFormat
-- *Default:* LoggingFormat.TEXT
-
-Sets the loggingFormat for the function.
-
----
-
-##### `logGroup`<sup>Optional</sup> <a name="logGroup" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logGroup"></a>
-
-```typescript
-public readonly logGroup: ILogGroup;
-```
-
-- *Type:* aws-cdk-lib.aws_logs.ILogGroup
-- *Default:* `/aws/lambda/${this.functionName}` - default log group created by Lambda
-
-The log group the function sends logs to.
-
-By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\<function name\>.
-However you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.
-
-Use the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.
-
-Providing a user-controlled log group was rolled out to commercial regions on 2023-11-16.
-If you are deploying to another type of region, please check regional availability first.
 
 ---
 
@@ -2906,20 +2688,6 @@ When updating
 this property, unsetting it doesn't remove the log retention policy. To
 remove the retention policy, set the value to `INFINITE`.
 
-This is a legacy API and we strongly recommend you move away from it if you can.
-Instead create a fully customizable log group with `logs.LogGroup` and use the `logGroup` property
-to instruct the Lambda function to send logs to it.
-Migrating from `logRetention` to `logGroup` will cause the name of the log group to change.
-Users and code and referencing the name verbatim will have to adjust.
-
-In AWS CDK code, you can access the log group name directly from the LogGroup construct:
-```ts
-import * as logs from 'aws-cdk-lib/aws-logs';
-
-declare const myLogGroup: logs.LogGroup;
-myLogGroup.logGroupName;
-```
-
 ---
 
 ##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logRetentionRetryOptions"></a>
@@ -2935,9 +2703,6 @@ When log retention is specified, a custom resource attempts to create the CloudW
 
 These options control the retry policy when interacting with CloudWatch APIs.
 
-This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
-`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
-
 ---
 
 ##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.logRetentionRole"></a>
@@ -2950,9 +2715,6 @@ public readonly logRetentionRole: IRole;
 - *Default:* A new role is created.
 
 The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
-
-This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
-`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
 
 ---
 
@@ -3081,49 +2843,6 @@ public readonly securityGroups: ISecurityGroup[];
 The list of security groups to associate with the Lambda's network interfaces.
 
 Only used if 'vpc' is supplied.
-
----
-
-##### `snapStart`<sup>Optional</sup> <a name="snapStart" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.snapStart"></a>
-
-```typescript
-public readonly snapStart: SnapStartConf;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.SnapStartConf
-- *Default:* No snapstart
-
-Enable SnapStart for Lambda Function.
-
-SnapStart is currently supported only for Java 11, 17 runtime
-
----
-
-##### ~~`systemLogLevel`~~<sup>Optional</sup> <a name="systemLogLevel" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.systemLogLevel"></a>
-
-- *Deprecated:* Use `systemLogLevelV2` as a property instead.
-
-```typescript
-public readonly systemLogLevel: string;
-```
-
-- *Type:* string
-- *Default:* "INFO"
-
-Sets the system log level for the function.
-
----
-
-##### `systemLogLevelV2`<sup>Optional</sup> <a name="systemLogLevelV2" id="@jjrawlins/cdk-ami-builder.CheckStateMachineStatusFunctionProps.property.systemLogLevelV2"></a>
-
-```typescript
-public readonly systemLogLevelV2: SystemLogLevel;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.SystemLogLevel
-- *Default:* SystemLogLevel.INFO
-
-Sets the system log level for the function.
 
 ---
 
@@ -3514,8 +3233,6 @@ const startStateMachineFunctionProps: StartStateMachineFunctionProps = { ... }
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.adotInstrumentation">adotInstrumentation</a></code> | <code>aws-cdk-lib.aws_lambda.AdotInstrumentationConfig</code> | Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevel">applicationLogLevel</a></code> | <code>string</code> | Sets the application log level for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevelV2">applicationLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.ApplicationLogLevel</code> | Sets the application log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
@@ -3531,11 +3248,7 @@ const startStateMachineFunctionProps: StartStateMachineFunctionProps = { ... }
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.ipv6AllowedForDualStack">ipv6AllowedForDualStack</a></code> | <code>boolean</code> | Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logFormat">logFormat</a></code> | <code>string</code> | Sets the logFormat for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.loggingFormat">loggingFormat</a></code> | <code>aws-cdk-lib.aws_lambda.LoggingFormat</code> | Sets the loggingFormat for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The log group the function sends logs to. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
@@ -3547,9 +3260,6 @@ const startStateMachineFunctionProps: StartStateMachineFunctionProps = { ... }
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.runtimeManagementMode">runtimeManagementMode</a></code> | <code>aws-cdk-lib.aws_lambda.RuntimeManagementMode</code> | Sets the runtime management configuration for a function's version. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.snapStart">snapStart</a></code> | <code>aws-cdk-lib.aws_lambda.SnapStartConf</code> | Enable SnapStart for Lambda Function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.systemLogLevel">systemLogLevel</a></code> | <code>string</code> | Sets the system log level for the function. |
-| <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.systemLogLevelV2">systemLogLevelV2</a></code> | <code>aws-cdk-lib.aws_lambda.SystemLogLevel</code> | Sets the system log level for the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
 | <code><a href="#@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
@@ -3644,9 +3354,6 @@ Whether to allow the Lambda to send all network traffic.
 If set to false, you must individually add traffic rules to allow the
 Lambda to connect to network targets.
 
-Do not specify this property if the `securityGroups` or `securityGroup` property is set.
-Instead, configure `allowAllOutbound` directly on the security group.
-
 ---
 
 ##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.allowPublicSubnet"></a>
@@ -3663,34 +3370,6 @@ Lambda Functions in a public subnet can NOT access the internet.
 Use this property to acknowledge this limitation and still place the function in a public subnet.
 
 > [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
-
----
-
-##### ~~`applicationLogLevel`~~<sup>Optional</sup> <a name="applicationLogLevel" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevel"></a>
-
-- *Deprecated:* Use `applicationLogLevelV2` as a property instead.
-
-```typescript
-public readonly applicationLogLevel: string;
-```
-
-- *Type:* string
-- *Default:* "INFO"
-
-Sets the application log level for the function.
-
----
-
-##### `applicationLogLevelV2`<sup>Optional</sup> <a name="applicationLogLevelV2" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.applicationLogLevelV2"></a>
-
-```typescript
-public readonly applicationLogLevelV2: ApplicationLogLevel;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.ApplicationLogLevel
-- *Default:* ApplicationLogLevel.INFO
-
-Sets the application log level for the function.
 
 ---
 
@@ -3907,21 +3586,6 @@ Specify the version of CloudWatch Lambda insights to use for monitoring.
 
 ---
 
-##### `ipv6AllowedForDualStack`<sup>Optional</sup> <a name="ipv6AllowedForDualStack" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.ipv6AllowedForDualStack"></a>
-
-```typescript
-public readonly ipv6AllowedForDualStack: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
-
-Only used if 'vpc' is supplied.
-
----
-
 ##### `layers`<sup>Optional</sup> <a name="layers" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.layers"></a>
 
 ```typescript
@@ -3936,55 +3600,6 @@ A list of layers to add to the function's execution environment.
 You can configure your Lambda function to pull in
 additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
 that can be used by multiple functions.
-
----
-
-##### ~~`logFormat`~~<sup>Optional</sup> <a name="logFormat" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logFormat"></a>
-
-- *Deprecated:* Use `loggingFormat` as a property instead.
-
-```typescript
-public readonly logFormat: string;
-```
-
-- *Type:* string
-- *Default:* "Text"
-
-Sets the logFormat for the function.
-
----
-
-##### `loggingFormat`<sup>Optional</sup> <a name="loggingFormat" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.loggingFormat"></a>
-
-```typescript
-public readonly loggingFormat: LoggingFormat;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.LoggingFormat
-- *Default:* LoggingFormat.TEXT
-
-Sets the loggingFormat for the function.
-
----
-
-##### `logGroup`<sup>Optional</sup> <a name="logGroup" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logGroup"></a>
-
-```typescript
-public readonly logGroup: ILogGroup;
-```
-
-- *Type:* aws-cdk-lib.aws_logs.ILogGroup
-- *Default:* `/aws/lambda/${this.functionName}` - default log group created by Lambda
-
-The log group the function sends logs to.
-
-By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/\<function name\>.
-However you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.
-
-Use the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.
-
-Providing a user-controlled log group was rolled out to commercial regions on 2023-11-16.
-If you are deploying to another type of region, please check regional availability first.
 
 ---
 
@@ -4003,20 +3618,6 @@ When updating
 this property, unsetting it doesn't remove the log retention policy. To
 remove the retention policy, set the value to `INFINITE`.
 
-This is a legacy API and we strongly recommend you move away from it if you can.
-Instead create a fully customizable log group with `logs.LogGroup` and use the `logGroup` property
-to instruct the Lambda function to send logs to it.
-Migrating from `logRetention` to `logGroup` will cause the name of the log group to change.
-Users and code and referencing the name verbatim will have to adjust.
-
-In AWS CDK code, you can access the log group name directly from the LogGroup construct:
-```ts
-import * as logs from 'aws-cdk-lib/aws-logs';
-
-declare const myLogGroup: logs.LogGroup;
-myLogGroup.logGroupName;
-```
-
 ---
 
 ##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logRetentionRetryOptions"></a>
@@ -4032,9 +3633,6 @@ When log retention is specified, a custom resource attempts to create the CloudW
 
 These options control the retry policy when interacting with CloudWatch APIs.
 
-This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
-`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
-
 ---
 
 ##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.logRetentionRole"></a>
@@ -4047,9 +3645,6 @@ public readonly logRetentionRole: IRole;
 - *Default:* A new role is created.
 
 The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
-
-This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
-`logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
 
 ---
 
@@ -4178,49 +3773,6 @@ public readonly securityGroups: ISecurityGroup[];
 The list of security groups to associate with the Lambda's network interfaces.
 
 Only used if 'vpc' is supplied.
-
----
-
-##### `snapStart`<sup>Optional</sup> <a name="snapStart" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.snapStart"></a>
-
-```typescript
-public readonly snapStart: SnapStartConf;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.SnapStartConf
-- *Default:* No snapstart
-
-Enable SnapStart for Lambda Function.
-
-SnapStart is currently supported only for Java 11, 17 runtime
-
----
-
-##### ~~`systemLogLevel`~~<sup>Optional</sup> <a name="systemLogLevel" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.systemLogLevel"></a>
-
-- *Deprecated:* Use `systemLogLevelV2` as a property instead.
-
-```typescript
-public readonly systemLogLevel: string;
-```
-
-- *Type:* string
-- *Default:* "INFO"
-
-Sets the system log level for the function.
-
----
-
-##### `systemLogLevelV2`<sup>Optional</sup> <a name="systemLogLevelV2" id="@jjrawlins/cdk-ami-builder.StartStateMachineFunctionProps.property.systemLogLevelV2"></a>
-
-```typescript
-public readonly systemLogLevelV2: SystemLogLevel;
-```
-
-- *Type:* aws-cdk-lib.aws_lambda.SystemLogLevel
-- *Default:* SystemLogLevel.INFO
-
-Sets the system log level for the function.
 
 ---
 

@@ -20,6 +20,7 @@ import { Provider } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import * as CryptoJS from 'crypto-js';
 import * as yaml from 'js-yaml';
+import { Actions } from '../IamPolicyBuilderHelper';
 import { CheckStateMachineStatusFunction } from '../Lambdas/CheckStateMachineStatus/CheckStateMachineStatus-function';
 import { StartStateMachineFunction } from '../Lambdas/StartStateMachine/StartStateMachine-function';
 import { StateMachine } from '../StateMachine';
@@ -479,21 +480,22 @@ export class ImagePipeline extends Construct {
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
             actions: [
-
+              Actions.states.StartExecution,
+              Actions.states.GetExecutionHistory,
+              Actions.states.ListExecutions,
+              Actions.states.DescribeExecution,
             ],
             resources: ['*'],
           }),
-          new Statement.States().allow()
-            .toStartExecution()
-            .toGetExecutionHistory()
-            .toListExecutions()
-            .toDescribeExecution()
-            .onAllResources(),
-          new Statement.Imagebuilder().allow()
-            .toListImagePipelines()
-            .toStartImagePipelineExecution()
-            .toGetImage()
-            .onAllResources(),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              Actions.imagebuilder.ListImagePipelines,
+              Actions.imagebuilder.StartImagePipelineExecution,
+              Actions.imagebuilder.GetImage,
+            ],
+            resources: ['*'],
+          }),
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
             actions: [
@@ -516,19 +518,31 @@ export class ImagePipeline extends Construct {
       memorySize: 128,
       timeout: Duration.minutes(12),
       initialPolicy: [
-        new Statement.States().allow()
-          .toDescribeExecution()
-          .toListExecutions()
-          .toGetExecutionHistory()
-          .onAllResources(),
-        new Statement.Imagebuilder().allow()
-          .toListImagePipelines()
-          .toStartImagePipelineExecution()
-          .toGetImage()
-          .onAllResources(),
-        new Statement.Ec2().allow()
-          .toModifyImageAttribute()
-          .onAllResources(),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            Actions.states.DescribeExecution,
+            Actions.states.ListExecutions,
+            Actions.states.GetExecutionHistory,
+          ],
+          resources: ['*'],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            Actions.imagebuilder.ListImagePipelines,
+            Actions.imagebuilder.StartImagePipelineExecution,
+            Actions.imagebuilder.GetImage,
+          ],
+          resources: ['*'],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: [
+            Actions.ec2.ModifyImageAttribute,
+          ],
+          resources: ['*'],
+        }),
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
           actions: [
@@ -560,12 +574,16 @@ export class ImagePipeline extends Construct {
       inlinePolicies: {
         StateMachinePolicy: new iam.PolicyDocument({
           statements: [
-            new Statement.Xray().allow()
-              .toPutTraceSegments()
-              .toPutTelemetryRecords()
-              .toGetSamplingRules()
-              .toGetSamplingTargets()
-              .onAllResources(),
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                Actions.xray.PutTraceSegments,
+                Actions.xray.PutTelemetryRecords,
+                Actions.xray.GetSamplingRules,
+                Actions.xray.GetSamplingTargets,
+              ],
+              resources: ['*'],
+            }),
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
               actions: [
@@ -573,9 +591,13 @@ export class ImagePipeline extends Construct {
               ],
               resources: [`arn:aws:imagebuilder:${region ?? '*'}:${account ?? '*'}:image-pipeline/${pipelineBaseName.toLowerCase()}-*`],
             }),
-            new Statement.Imagebuilder().allow()
-              .toGetImage()
-              .onAllResources(),
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                Actions.imagebuilder.GetImage,
+              ],
+              resources: ['*'],
+            }),
           ],
         }),
       },

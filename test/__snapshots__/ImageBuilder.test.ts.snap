@@ -77,17 +77,17 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
             {
               "Action": [
                 "states:DescribeExecution",
-                "states:GetExecutionHistory",
                 "states:ListExecutions",
+                "states:GetExecutionHistory",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
             {
               "Action": [
-                "imagebuilder:GetImage",
                 "imagebuilder:ListImagePipelines",
                 "imagebuilder:StartImagePipelineExecution",
+                "imagebuilder:GetImage",
               ],
               "Effect": "Allow",
               "Resource": "*",
@@ -278,7 +278,7 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -419,7 +419,7 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -564,7 +564,7 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -696,22 +696,6 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
             ],
           ],
         },
-        "LoggingConfiguration": {
-          "Destinations": [
-            {
-              "CloudWatchLogsLogGroup": {
-                "LogGroupArn": {
-                  "Fn::GetAtt": [
-                    "ImagePipelineTestResourceProviderwaiterstatemachineLogGroupDF98BE60",
-                    "Arn",
-                  ],
-                },
-              },
-            },
-          ],
-          "IncludeExecutionData": false,
-          "Level": "ERROR",
-        },
         "RoleArn": {
           "Fn::GetAtt": [
             "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF",
@@ -721,26 +705,6 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
       },
       "Type": "AWS::StepFunctions::StateMachine",
     },
-    "ImagePipelineTestResourceProviderwaiterstatemachineLogGroupDF98BE60": {
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/vendedlogs/states/waiter-state-machine-",
-              {
-                "Ref": "ImagePipelineTestResourceProviderframeworkisComplete7EAC489D",
-              },
-              "-c88eb7cd7ccc62ef9a247d27e593f9fec2b175acd8",
-            ],
-          ],
-        },
-        "RetentionInDays": 731,
-      },
-      "Type": "AWS::Logs::LogGroup",
-      "UpdateReplacePolicy": "Retain",
-    },
     "ImagePipelineTestResourceProviderwaiterstatemachineRole14260CDF": {
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -749,7 +713,7 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.amazonaws.com",
+                "Service": "states.eu-central-1.amazonaws.com",
               },
             },
           ],
@@ -813,22 +777,6 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": [
-                "logs:CreateLogDelivery",
-                "logs:CreateLogStream",
-                "logs:GetLogDelivery",
-                "logs:UpdateLogDelivery",
-                "logs:DeleteLogDelivery",
-                "logs:ListLogDeliveries",
-                "logs:PutLogEvents",
-                "logs:PutResourcePolicy",
-                "logs:DescribeResourcePolicies",
-                "logs:DescribeLogGroups",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
@@ -980,19 +928,19 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
           "Statement": [
             {
               "Action": [
-                "states:DescribeExecution",
+                "states:StartExecution",
                 "states:GetExecutionHistory",
                 "states:ListExecutions",
-                "states:StartExecution",
+                "states:DescribeExecution",
               ],
               "Effect": "Allow",
               "Resource": "*",
             },
             {
               "Action": [
-                "imagebuilder:GetImage",
                 "imagebuilder:ListImagePipelines",
                 "imagebuilder:StartImagePipelineExecution",
+                "imagebuilder:GetImage",
               ],
               "Effect": "Allow",
               "Resource": "*",
@@ -1039,7 +987,7 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.amazonaws.com",
+                "Service": "states.eu-central-1.amazonaws.com",
               },
             },
           ],
@@ -1065,10 +1013,10 @@ exports[`Image Building Tests ImageBuildingSimpleTest 1`] = `
               "Statement": [
                 {
                   "Action": [
+                    "xray:PutTraceSegments",
+                    "xray:PutTelemetryRecords",
                     "xray:GetSamplingRules",
                     "xray:GetSamplingTargets",
-                    "xray:PutTelemetryRecords",
-                    "xray:PutTraceSegments",
                   ],
                   "Effect": "Allow",
                   "Resource": "*",

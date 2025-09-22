@@ -158,6 +158,9 @@
       "steps": [
         {
           "exec": "jsii --silence-warnings=reserved-word"
+        },
+        {
+          "exec": "cp -r src/StateMachineFiles lib/"
         }
       ]
     },

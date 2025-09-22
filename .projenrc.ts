@@ -171,4 +171,7 @@ new TextFile(project, '.tool-versions', {
   ],
 });
 
+// Add post-compile step to copy JSON files
+project.compileTask.exec('cp -r src/StateMachineFiles lib/');
+
 project.synth();
