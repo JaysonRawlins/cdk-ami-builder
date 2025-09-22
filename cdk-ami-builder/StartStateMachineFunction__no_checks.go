@@ -56,19 +56,7 @@ func (s *jsiiProxy_StartStateMachineFunction) validateGrantInvokeParameters(gran
 	return nil
 }
 
-func (s *jsiiProxy_StartStateMachineFunction) validateGrantInvokeCompositePrincipalParameters(compositePrincipal awsiam.CompositePrincipal) error {
-	return nil
-}
-
-func (s *jsiiProxy_StartStateMachineFunction) validateGrantInvokeLatestVersionParameters(grantee awsiam.IGrantable) error {
-	return nil
-}
-
 func (s *jsiiProxy_StartStateMachineFunction) validateGrantInvokeUrlParameters(grantee awsiam.IGrantable) error {
-	return nil
-}
-
-func (s *jsiiProxy_StartStateMachineFunction) validateGrantInvokeVersionParameters(grantee awsiam.IGrantable, version awslambda.IVersion) error {
 	return nil
 }
 

@@ -122,11 +122,11 @@ type StartStateMachineFunction interface {
 	AddEnvironment(key *string, value *string, options *awslambda.EnvironmentOptions) awslambda.Function
 	// Adds an event source to this function.
 	//
-	// Event sources are implemented in the aws-cdk-lib/aws-lambda-event-sources module.
+	// Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
 	//
 	// The following example adds an SQS Queue as an event source:
 	// ```
-	// import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+	// import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 	// myFunction.addEventSource(new SqsEventSource(myQueue));
 	// ```.
 	AddEventSource(source awslambda.IEventSource)
@@ -177,14 +177,8 @@ type StartStateMachineFunction interface {
 	GetResourceNameAttribute(nameAttr *string) *string
 	// Grant the given identity permissions to invoke this Lambda.
 	GrantInvoke(grantee awsiam.IGrantable) awsiam.Grant
-	// Grant multiple principals the ability to invoke this Lambda via CompositePrincipal.
-	GrantInvokeCompositePrincipal(compositePrincipal awsiam.CompositePrincipal) *[]awsiam.Grant
-	// Grant the given identity permissions to invoke the $LATEST version or unqualified version of this Lambda.
-	GrantInvokeLatestVersion(grantee awsiam.IGrantable) awsiam.Grant
 	// Grant the given identity permissions to invoke this Lambda Function URL.
 	GrantInvokeUrl(grantee awsiam.IGrantable) awsiam.Grant
-	// Grant the given identity permissions to invoke the given version of this Lambda.
-	GrantInvokeVersion(grantee awsiam.IGrantable, version awslambda.IVersion) awsiam.Grant
 	// Mix additional information into the hash of the Version object.
 	//
 	// The Lambda Function construct does its best to automatically create a new
@@ -485,9 +479,6 @@ func StartStateMachineFunction_ClassifyVersionProperty(propertyName *string, loc
 }
 
 // Import a lambda function into the CDK using its ARN.
-//
-// For `Function.addPermissions()` to work on this imported lambda, make sure that is
-// in the same account and region as the stack you are importing it into.
 func StartStateMachineFunction_FromFunctionArn(scope constructs.Construct, id *string, functionArn *string) awslambda.IFunction {
 	_init_.Initialize()
 
@@ -507,9 +498,6 @@ func StartStateMachineFunction_FromFunctionArn(scope constructs.Construct, id *s
 }
 
 // Creates a Lambda function object which represents a function not defined within this stack.
-//
-// For `Function.addPermissions()` to work on this imported lambda, set the sameEnvironment property to true
-// if this imported lambda is in the same account and region as the stack you are importing it into.
 func StartStateMachineFunction_FromFunctionAttributes(scope constructs.Construct, id *string, attrs *awslambda.FunctionAttributes) awslambda.IFunction {
 	_init_.Initialize()
 
@@ -969,38 +957,6 @@ func (s *jsiiProxy_StartStateMachineFunction) GrantInvoke(grantee awsiam.IGranta
 	return returns
 }
 
-func (s *jsiiProxy_StartStateMachineFunction) GrantInvokeCompositePrincipal(compositePrincipal awsiam.CompositePrincipal) *[]awsiam.Grant {
-	if err := s.validateGrantInvokeCompositePrincipalParameters(compositePrincipal); err != nil {
-		panic(err)
-	}
-	var returns *[]awsiam.Grant
-
-	_jsii_.Invoke(
-		s,
-		"grantInvokeCompositePrincipal",
-		[]interface{}{compositePrincipal},
-		&returns,
-	)
-
-	return returns
-}
-
-func (s *jsiiProxy_StartStateMachineFunction) GrantInvokeLatestVersion(grantee awsiam.IGrantable) awsiam.Grant {
-	if err := s.validateGrantInvokeLatestVersionParameters(grantee); err != nil {
-		panic(err)
-	}
-	var returns awsiam.Grant
-
-	_jsii_.Invoke(
-		s,
-		"grantInvokeLatestVersion",
-		[]interface{}{grantee},
-		&returns,
-	)
-
-	return returns
-}
-
 func (s *jsiiProxy_StartStateMachineFunction) GrantInvokeUrl(grantee awsiam.IGrantable) awsiam.Grant {
 	if err := s.validateGrantInvokeUrlParameters(grantee); err != nil {
 		panic(err)
@@ -1011,22 +967,6 @@ func (s *jsiiProxy_StartStateMachineFunction) GrantInvokeUrl(grantee awsiam.IGra
 		s,
 		"grantInvokeUrl",
 		[]interface{}{grantee},
-		&returns,
-	)
-
-	return returns
-}
-
-func (s *jsiiProxy_StartStateMachineFunction) GrantInvokeVersion(grantee awsiam.IGrantable, version awslambda.IVersion) awsiam.Grant {
-	if err := s.validateGrantInvokeVersionParameters(grantee, version); err != nil {
-		panic(err)
-	}
-	var returns awsiam.Grant
-
-	_jsii_.Invoke(
-		s,
-		"grantInvokeVersion",
-		[]interface{}{grantee, version},
 		&returns,
 	)
 

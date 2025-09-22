@@ -88,7 +88,6 @@ const imagePipeline = new ImagePipeline(this, 'ImagePipeline', {
     parentImage: image.getImage(this).imageId,
     vpc: vpc,
     imageRecipeVersion: version,
-    autoBuild: true, // Otherwise you can't use the below output
     components: [
         {
             name: 'Install-Monitoring',

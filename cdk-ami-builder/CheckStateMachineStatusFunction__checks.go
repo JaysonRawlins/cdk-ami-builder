@@ -158,37 +158,9 @@ func (c *jsiiProxy_CheckStateMachineStatusFunction) validateGrantInvokeParameter
 	return nil
 }
 
-func (c *jsiiProxy_CheckStateMachineStatusFunction) validateGrantInvokeCompositePrincipalParameters(compositePrincipal awsiam.CompositePrincipal) error {
-	if compositePrincipal == nil {
-		return fmt.Errorf("parameter compositePrincipal is required, but nil was provided")
-	}
-
-	return nil
-}
-
-func (c *jsiiProxy_CheckStateMachineStatusFunction) validateGrantInvokeLatestVersionParameters(grantee awsiam.IGrantable) error {
-	if grantee == nil {
-		return fmt.Errorf("parameter grantee is required, but nil was provided")
-	}
-
-	return nil
-}
-
 func (c *jsiiProxy_CheckStateMachineStatusFunction) validateGrantInvokeUrlParameters(grantee awsiam.IGrantable) error {
 	if grantee == nil {
 		return fmt.Errorf("parameter grantee is required, but nil was provided")
-	}
-
-	return nil
-}
-
-func (c *jsiiProxy_CheckStateMachineStatusFunction) validateGrantInvokeVersionParameters(grantee awsiam.IGrantable, version awslambda.IVersion) error {
-	if grantee == nil {
-		return fmt.Errorf("parameter grantee is required, but nil was provided")
-	}
-
-	if version == nil {
-		return fmt.Errorf("parameter version is required, but nil was provided")
 	}
 
 	return nil
