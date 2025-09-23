@@ -65,8 +65,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     packageName: 'cdk-ami-builder',
   },
   publishToNuget: {
-    packageId: 'jjrawlins.CdkAmiBuilder',
-    dotNetNamespace: 'jjrawlins.CdkAmiBuilder',
+    packageId: 'JJRawlins.CdkAmiBuilder',
+    dotNetNamespace: 'JJRawlins.CdkAmiBuilder',
   },
   peerDeps: [
     'aws-cdk-lib', // recommend using version 189 or greater due to security updates

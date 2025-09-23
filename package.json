@@ -191,8 +191,8 @@
         "module": "jjrawlins_cdk_ami_builder"
       },
       "dotnet": {
-        "namespace": "jjrawlins.CdkAmiBuilder",
-        "packageId": "jjrawlins.CdkAmiBuilder"
+        "namespace": "JJRawlins.CdkAmiBuilder",
+        "packageId": "JJRawlins.CdkAmiBuilder"
       },
       "go": {
         "moduleName": "github.com/JaysonRawlins/cdk-ami-builder",
