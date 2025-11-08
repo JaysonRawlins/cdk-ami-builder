@@ -386,7 +386,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@types/axios,@types/jest,@types/lodash,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-pacmak,ts-jest,ts-node,typescript,@aws-sdk/client-ec2,@aws-sdk/client-ecs,@aws-sdk/client-kms,@aws-sdk/client-s3,@aws-sdk/client-secrets-manager,@aws-sdk/client-sfn,@aws-sdk/client-sns,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/crypto-js,@types/js-yaml,crypto-js,js-yaml,lodash,lodash.merge,constructs"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-sdk/types,@types/axios,@types/jest,@types/lodash,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-pacmak,ts-jest,ts-node,typescript,@aws-sdk/client-ec2,@aws-sdk/client-ecs,@aws-sdk/client-kms,@aws-sdk/client-s3,@aws-sdk/client-secrets-manager,@aws-sdk/client-sfn,@aws-sdk/client-sns,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/crypto-js,@types/js-yaml,crypto-js,js-yaml,lodash,lodash.merge"
         },
         {
           "exec": "yarn install --check-files"

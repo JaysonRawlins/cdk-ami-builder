@@ -101,7 +101,7 @@
     },
     {
       "name": "projen",
-      "version": "^0.95.4",
+      "version": "^0.95.6",
       "type": "build"
     },
     {
@@ -187,12 +187,8 @@
     },
     {
       "name": "constructs",
-      "version": "^10.0.5",
+      "version": ">=10.0.5 <11.0.0",
       "type": "peer"
-    },
-    {
-      "name": "constructs",
-      "type": "runtime"
     },
     {
       "name": "crypto-js",
