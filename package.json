@@ -78,9 +78,9 @@
     "constructs": ">=10.0.5 <11.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-ec2": "^3.937.0",
+    "@aws-sdk/client-ec2": "^3.938.0",
     "@aws-sdk/client-ecs": "^3.937.0",
-    "@aws-sdk/client-kms": "^3.936.0",
+    "@aws-sdk/client-kms": "^3.938.0",
     "@aws-sdk/client-s3": "^3.937.0",
     "@aws-sdk/client-secrets-manager": "^3.936.0",
     "@aws-sdk/client-sfn": "^3.936.0",
