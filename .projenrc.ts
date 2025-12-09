@@ -113,6 +113,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   npmAccess: NpmAccess.PUBLIC,
   releaseToNpm: true,
+  versionrcOptions: {
+    releaseCommitMessageFormat: 'chore(release): :bookmark: v{{currentTag}} [skip ci]',
+  },
 });
 
 // Add Yarn resolutions to ensure patched transitive versions
