@@ -113,6 +113,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   npmAccess: NpmAccess.PUBLIC,
   releaseToNpm: true,
+  npmTrustedPublishing: true, // Use OIDC instead of NPM_TOKEN (requires npm 11.5.1+ / Node 24+)
 });
 
 // Add Yarn resolutions to ensure patched transitive versions
@@ -181,10 +182,8 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release.perm
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.contents', 'write');
-
-// Use npm Trusted Publisher (OIDC) instead of NPM_TOKEN
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.steps.9.env.NPM_TRUSTED_PUBLISHER', 'true');
-project.github!.tryFindWorkflow('release')!.file!.addDeletionOverride('jobs.release_npm.steps.9.env.NPM_TOKEN');
+// npm Trusted Publishing requires npm 11.5.1+ which comes with Node.js 24+
+project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.steps.0.with.node-version', '24');
 
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.packages', 'read');
