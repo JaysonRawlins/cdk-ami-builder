@@ -182,6 +182,10 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.contents', 'write');
 
+// Use npm Trusted Publisher (OIDC) instead of NPM_TOKEN
+project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.steps.9.env.NPM_TRUSTED_PUBLISHER', 'true');
+project.github!.tryFindWorkflow('release')!.file!.addDeletionOverride('jobs.release_npm.steps.9.env.NPM_TOKEN');
+
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.contents', 'write');
