@@ -113,9 +113,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   npmAccess: NpmAccess.PUBLIC,
   releaseToNpm: true,
-  versionrcOptions: {
-    releaseCommitMessageFormat: 'chore(release): :bookmark: v{{currentTag}} [skip ci]',
-  },
 });
 
 // Add Yarn resolutions to ensure patched transitive versions
@@ -196,6 +193,11 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_gola
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.contents', 'write');
+
+// Prevent release workflow from triggering on Go module commits
+project.github!.tryFindWorkflow('release')!.file!.addOverride('on.push.paths-ignore', [
+  'cdkamibuilder/**',
+]);
 
 new TextFile(project, '.tool-versions', {
   lines: [

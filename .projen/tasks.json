@@ -33,7 +33,6 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "VERSIONRCOPTIONS": "{\"releaseCommitMessageFormat\":\"chore(release): :bookmark: v{{currentTag}} [skip ci]\"}",
         "BUMP_PACKAGE": "commit-and-tag-version@^12"
       },
       "steps": [
@@ -371,7 +370,6 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "VERSIONRCOPTIONS": "{\"releaseCommitMessageFormat\":\"chore(release): :bookmark: v{{currentTag}} [skip ci]\"}",
         "BUMP_PACKAGE": "commit-and-tag-version@^12"
       },
       "steps": [
