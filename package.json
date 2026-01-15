@@ -45,7 +45,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/types": "^3.968.0",
+    "@aws-sdk/types": "^3.969.0",
     "@stylistic/eslint-plugin": "^2",
     "@types/axios": "^0.14.4",
     "@types/jest": "^30.0.0",
@@ -78,15 +78,15 @@
     "constructs": ">=10.0.5 <11.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-ec2": "^3.968.0",
-    "@aws-sdk/client-ecs": "^3.968.0",
-    "@aws-sdk/client-kms": "^3.968.0",
-    "@aws-sdk/client-s3": "^3.968.0",
-    "@aws-sdk/client-secrets-manager": "^3.968.0",
-    "@aws-sdk/client-sfn": "^3.968.0",
-    "@aws-sdk/client-sns": "^3.968.0",
-    "@aws-sdk/client-sqs": "^3.968.0",
-    "@aws-sdk/client-ssm": "^3.968.0",
+    "@aws-sdk/client-ec2": "^3.969.0",
+    "@aws-sdk/client-ecs": "^3.969.0",
+    "@aws-sdk/client-kms": "^3.969.0",
+    "@aws-sdk/client-s3": "^3.969.0",
+    "@aws-sdk/client-secrets-manager": "^3.969.0",
+    "@aws-sdk/client-sfn": "^3.969.0",
+    "@aws-sdk/client-sns": "^3.969.0",
+    "@aws-sdk/client-sqs": "^3.969.0",
+    "@aws-sdk/client-ssm": "^3.969.0",
     "@types/aws-lambda": "^8.10.159",
     "@types/crypto-js": "^4.2.2",
     "@types/js-yaml": "^4.0.9",
