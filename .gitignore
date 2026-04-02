@@ -57,5 +57,6 @@ tsconfig.json
 !/src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus-function.ts
 !/src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm-function.ts
 !/src/Lambdas/StartStateMachine/StartStateMachine-function.ts
+!/.github/workflows/security.yml
 !/.tool-versions
 !/.projenrc.ts

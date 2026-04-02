@@ -1,7 +1,7 @@
 import { awscdk, DependencyType, TextFile } from 'projen';
 
-import { GithubCredentials } from 'projen/lib/github';
-import { NpmAccess } from 'projen/lib/javascript';
+import { GithubCredentials, workflows } from 'projen/lib/github';
+import { NpmAccess, UpgradeDependenciesSchedule } from 'projen/lib/javascript';
 
 const cdkCliVersion = '2.1029.2';
 const minNodeVersion = '20.0.0';
@@ -12,6 +12,8 @@ const cdkVersion = '2.85.0'; // Minimum CDK Version Required
 const minProjenVersion = '0.95.6'; // Does not affect consumers of the library
 const minConstructsVersion = '10.0.5'; // Minimum version to support CDK v2 and does affect consumers of the library
 const devConstructsVersion = '10.0.5'; // Pin for local dev/build to avoid jsii type conflicts
+// Pinned SHA for actions/create-github-app-token
+const createGithubAppTokenVersion = '3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Jayson Rawlins',
   description: 'Creates an EC2 AMI using an Image Builder Pipeline and returns the AMI ID.',
@@ -59,6 +61,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   depsUpgrade: true,
+  depsUpgradeOptions: {
+    workflowOptions: {
+      schedule: UpgradeDependenciesSchedule.expressions(['0 9 * * 1']),
+    },
+  },
   publishToPypi: {
     distName: 'jjrawlins-cdk-ami-builder',
     module: 'jjrawlins_cdk_ami_builder',
@@ -172,15 +179,19 @@ project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.build.steps.1.
  */
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.permissions.packages', 'write');
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.permissions.id-token', 'write');
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.id-token', 'write');
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.id-token', 'write');
+project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.steps.0.with.node-version', workflowNodeVersion);
 
 /** * For the release jobs, we need to be able to read from packages and also need id-token permissions for OIDC to authenticate to the registry.
  */
@@ -217,10 +228,81 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuge
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.contents', 'write');
 
+// Replace GO_GITHUB_TOKEN PAT with GitHub App installation token for Go module publishing
+const releaseWorkflow = project.github!.tryFindWorkflow('release')!;
+releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.name', 'Generate token');
+releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.id', 'generate_token');
+releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.uses', `actions/create-github-app-token@${createGithubAppTokenVersion}`);
+releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.with', {
+  'app-id': '${{ secrets.PROJEN_APP_ID }}',
+  'private-key': '${{ secrets.PROJEN_APP_PRIVATE_KEY }}',
+});
+// Remove old Release step fields from step 10
+releaseWorkflow.file!.addDeletionOverride('jobs.release_golang.steps.10.env');
+releaseWorkflow.file!.addDeletionOverride('jobs.release_golang.steps.10.run');
+// Step 11: actual release using the App token
+releaseWorkflow.file!.addOverride('jobs.release_golang.steps.11', {
+  name: 'Release',
+  env: {
+    GIT_USER_NAME: 'github-actions[bot]',
+    GIT_USER_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com',
+    GITHUB_TOKEN: '${{ steps.generate_token.outputs.token }}',
+  },
+  run: [
+    // publib constructs https://<token>@github.com/... which works for PATs but not GitHub App tokens.
+    // App tokens require the x-access-token: username prefix.
+    'git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://${GITHUB_TOKEN}@github.com/"',
+    'npx -p publib@latest publib-golang',
+  ].join('\n'),
+});
+
+// PyPI Trusted Publishing — replace TWINE_USERNAME/TWINE_PASSWORD with OIDC
+releaseWorkflow.file!.addDeletionOverride('jobs.release_pypi.steps.10.env.TWINE_USERNAME');
+releaseWorkflow.file!.addDeletionOverride('jobs.release_pypi.steps.10.env.TWINE_PASSWORD');
+releaseWorkflow.file!.addOverride('jobs.release_pypi.steps.10.env.PYPI_TRUSTED_PUBLISHER', 'true');
+
+// NuGet Trusted Publishing — replace NUGET_API_KEY with OIDC
+releaseWorkflow.file!.addDeletionOverride('jobs.release_nuget.steps.10.env.NUGET_API_KEY');
+releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_TRUSTED_PUBLISHER', 'true');
+releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_USERNAME', 'jjrawlins');
+
 // Prevent release workflow from triggering on Go module commits
-project.github!.tryFindWorkflow('release')!.file!.addOverride('on.push.paths-ignore', [
+releaseWorkflow.file!.addOverride('on.push.paths-ignore', [
   'cdkamibuilder/**',
 ]);
+
+// Dependency review on PRs — blocks merge if new high/critical vulnerabilities are introduced
+// Works with existing Dependabot security updates to create a merge gate
+const securityWorkflow = project.github!.addWorkflow('security');
+securityWorkflow.on({
+  pullRequest: {
+    branches: ['main'],
+  },
+});
+securityWorkflow.addJobs({
+  'dependency-review': {
+    name: 'Dependency Review',
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      contents: workflows.JobPermission.READ,
+      pullRequests: workflows.JobPermission.WRITE,
+    },
+    steps: [
+      {
+        name: 'Checkout',
+        uses: 'actions/checkout@v5',
+      },
+      {
+        name: 'Dependency Review',
+        uses: 'actions/dependency-review-action@v4',
+        with: {
+          'fail-on-severity': 'high',
+          'comment-summary-in-pr': 'always',
+        },
+      },
+    ],
+  },
+});
 
 new TextFile(project, '.tool-versions', {
   lines: [
