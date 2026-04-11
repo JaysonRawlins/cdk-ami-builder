@@ -261,6 +261,14 @@ releaseWorkflow.file!.addOverride('on.push.paths-ignore', [
   'cdkamibuilder/**',
 ]);
 
+// Fix tag existence check to use exact ref match (prevents Go module tags like
+// cdkamibuilder/v0.0.190 from falsely matching when checking for v0.0.190)
+releaseWorkflow.file!.addOverride('jobs.release.steps.5.run', [
+  'TAG=$(cat dist/releasetag.txt)',
+  '([ ! -z "$TAG" ] && git ls-remote -q --exit-code --tags origin "refs/tags/$TAG" && (echo "exists=true" >> $GITHUB_OUTPUT)) || (echo "exists=false" >> $GITHUB_OUTPUT)',
+  'cat $GITHUB_OUTPUT',
+].join('\n'));
+
 // Dependency review on PRs — blocks merge if new high/critical vulnerabilities are introduced
 // Works with existing Dependabot security updates to create a merge gate
 const securityWorkflow = project.github!.addWorkflow('security');
