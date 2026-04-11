@@ -47,7 +47,6 @@
   "devDependencies": {
     "@aws-sdk/types": "^3.973.6",
     "@stylistic/eslint-plugin": "^2",
-    "@types/axios": "^0.14.4",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.24",
     "@types/node": "^24.12.2",
