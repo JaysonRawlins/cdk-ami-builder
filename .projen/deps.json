@@ -10,10 +10,6 @@
       "type": "build"
     },
     {
-      "name": "@types/axios",
-      "type": "build"
-    },
-    {
       "name": "@types/jest",
       "type": "build"
     },
