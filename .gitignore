@@ -58,5 +58,6 @@ tsconfig.json
 !/src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm-function.ts
 !/src/Lambdas/StartStateMachine/StartStateMachine-function.ts
 !/.github/workflows/security.yml
+!/.github/workflows/e2e.yml
 !/.tool-versions
 !/.projenrc.ts
