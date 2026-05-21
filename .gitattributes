@@ -2,15 +2,18 @@
 
 * text=auto eol=lf
 *.snap linguist-generated
-/.eslintrc.json linguist-generated
+/.eslintrc.json linguist-generated linguist-language=JSON-with-Comments
 /.gitattributes linguist-generated
+/.github/dependabot.yml linguist-generated
 /.github/pull_request_template.md linguist-generated
 /.github/workflows/build.yml linguist-generated
+/.github/workflows/dependabot-automerge.yml linguist-generated
+/.github/workflows/dependabot-rebase-stuck.yml linguist-generated
 /.github/workflows/e2e.yml linguist-generated
 /.github/workflows/pull-request-lint.yml linguist-generated
 /.github/workflows/release.yml linguist-generated
 /.github/workflows/security.yml linguist-generated
-/.github/workflows/upgrade-main.yml linguist-generated
+/.github/workflows/semgrep.yml linguist-generated
 /.gitignore linguist-generated
 /.npmignore linguist-generated
 /.projen/** linguist-generated
@@ -24,5 +27,5 @@
 /src/Lambdas/CheckStateMachineStatus/CheckStateMachineStatus-function.ts linguist-generated
 /src/Lambdas/ImageBuilderUpdateSsm/ImageBuilderUpdateSsm-function.ts linguist-generated
 /src/Lambdas/StartStateMachine/StartStateMachine-function.ts linguist-generated
-/tsconfig.dev.json linguist-generated
+/tsconfig.dev.json linguist-generated linguist-language=JSON-with-Comments
 /yarn.lock linguist-generated
