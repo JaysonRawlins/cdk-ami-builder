@@ -1,6 +1,0 @@
-{
-  "CdkAmiBuilderE2ETest": {
-    "PipelineArn": "arn:aws:imagebuilder:us-east-2:891377240835:image-pipeline/cdkamibuildere2etest-imagepipeline-0-0-2",
-    "ImageId": "ami-0990f90e0284e8bfb"
-  }
-}
