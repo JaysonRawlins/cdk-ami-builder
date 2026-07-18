@@ -1,19 +1,17 @@
 import { awscdk, DependencyType, TextFile, YamlFile } from 'projen';
 
 import { Dependabot, DependabotScheduleInterval, GithubCredentials, VersioningStrategy, workflows } from 'projen/lib/github';
-import { NpmAccess } from 'projen/lib/javascript';
+import { NodePackageManager, NpmAccess } from 'projen/lib/javascript';
 
 const cdkCliVersion = '2.1029.2';
 const minNodeVersion = '20.0.0';
-const devNodeVersion = '20.19.0';
-const workflowNodeVersion = '20.x';
+const devNodeVersion = '24.8.0';
+const workflowNodeVersion = '24.x';
 const jsiiVersion = '~5.8.0';
 const cdkVersion = '2.85.0'; // Minimum CDK Version Required
 const minProjenVersion = '0.99.52'; // Bumped to pick up Dependabot.cooldown option (PR #4650, 2026-04-10).
 const minConstructsVersion = '10.0.5'; // Minimum version to support CDK v2 and does affect consumers of the library
 const devConstructsVersion = '10.0.5'; // Pin for local dev/build to avoid jsii type conflicts
-// Pinned SHA for actions/create-github-app-token
-const createGithubAppTokenVersion = '3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Jayson Rawlins',
   description: 'Creates an EC2 AMI using an Image Builder Pipeline and returns the AMI ID.',
@@ -21,9 +19,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: 'jayson.rawlins@gmail.com',
   packageName: '@jjrawlins/cdk-ami-builder',
   minNodeVersion: minNodeVersion,
+  workflowNodeVersion: workflowNodeVersion,
   cdkVersion: cdkVersion,
   cdkCliVersion: cdkCliVersion,
-  projenVersion: `^${minProjenVersion}`,
+  projenVersion: minProjenVersion,
   lambdaOptions: {
     runtime: awscdk.LambdaRuntime.NODEJS_22_X,
   },
@@ -32,6 +31,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jsiiVersion: jsiiVersion,
   name: '@jjrawlins/cdk-ami-builder',
   projenrcTs: true,
+  packageManager: NodePackageManager.PNPM,
+  pnpmVersion: '11.13.0',
   repositoryUrl: 'https://github.com/JaysonRawlins/cdk-ami-builder.git',
   githubOptions: {
     projenCredentials: GithubCredentials.fromApp({
@@ -86,6 +87,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToGo: {
     moduleName: 'github.com/JaysonRawlins/cdk-ami-builder',
     packageName: 'cdkamibuilder',
+    // The Go module is published into this same repo, so the workflow's own
+    // token suffices — no PAT, no App token.
+    githubTokenSecret: 'GITHUB_TOKEN',
+    // Publish to a dedicated branch, not main: go resolution works off the
+    // cdkamibuilder/vX.Y.Z tags, and main's required build check
+    // (require-build-green ruleset) would reject publib's direct push.
+    gitBranch: 'go',
   },
   publishToNuget: {
     packageId: 'JJRawlins.CdkAmiBuilder',
@@ -139,13 +147,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
 // Add Yarn resolutions to ensure patched transitive versions
 project.package.addField('resolutions', {
-  'brace-expansion': '1.1.12',
+  // Exact CVE/cooldown pins removed: pnpm's minimumReleaseAge
+  // (pnpm-workspace.yaml) age-gates the whole tree at resolution time.
   'form-data': '^4.0.4',
-  '@eslint/plugin-kit': '^0.3.4',
   'aws-cdk-lib': `>=${cdkVersion} <3.0.0`,
   // Pin constructs for local dev/build to a single version to avoid jsii conflicts
   'constructs': devConstructsVersion,
-  'projen': `>=${minProjenVersion} <1.0.0`,
 });
 
 // Allow Node 20+ for consumers (CDK constructs work on any modern Node).
@@ -163,26 +170,21 @@ project.deps.addDependency(`constructs@>=${minConstructsVersion} <11.0.0`, Depen
  */
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.build.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.build.permissions.packages', 'read');
-project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.build.steps.1.with.node-version', workflowNodeVersion);
 
 /**
  * For the package jobs, we need to be able to write to packages and also need id-token permissions for OIDC to authenticate to the registry.
  */
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.permissions.packages', 'write');
-project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-js.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.permissions.id-token', 'write');
-project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-python.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.permissions.id-token', 'write');
-project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-go.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.packages', 'write');
 project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.permissions.id-token', 'write');
-project.github!.tryFindWorkflow('build')!.file!.addOverride('jobs.package-dotnet.steps.0.with.node-version', workflowNodeVersion);
 
 /** * For the release jobs, we need to be able to read from packages and also need id-token permissions for OIDC to authenticate to the registry.
  */
@@ -193,19 +195,7 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release.perm
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.permissions.contents', 'write');
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release.steps.2.with.node-version', workflowNodeVersion);
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_github.steps.0.with.node-version', workflowNodeVersion);
 
-// npm Trusted Publishing requires npm 11.5.1+ which comes with Node.js 24+
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.steps.0.with.node-version', '24');
-// Add --ignore-engines to yarn install since Node 24 is outside the engines range (20.x)
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_npm.steps.4.run', 'cd .repo && yarn install --check-files --frozen-lockfile --ignore-engines');
-
-// Override node-version for publish jobs that default to minNodeVersion (20.0.0)
-// @eslint/plugin-kit@0.3.5 requires Node ^20.9.0, so 20.0.0 fails yarn install
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.steps.0.with.node-version', workflowNodeVersion);
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.steps.0.with.node-version', workflowNodeVersion);
-project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_golang.steps.0.with.node-version', workflowNodeVersion);
 
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.id-token', 'write');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_pypi.permissions.packages', 'read');
@@ -219,33 +209,17 @@ project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuge
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.packages', 'read');
 project.github!.tryFindWorkflow('release')!.file!.addOverride('jobs.release_nuget.permissions.contents', 'write');
 
-// Replace GO_GITHUB_TOKEN PAT with GitHub App installation token for Go module publishing
 const releaseWorkflow = project.github!.tryFindWorkflow('release')!;
-releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.name', 'Generate token');
-releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.id', 'generate_token');
-releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.uses', `actions/create-github-app-token@${createGithubAppTokenVersion}`);
-releaseWorkflow.file!.addOverride('jobs.release_golang.steps.10.with', {
-  'app-id': '${{ secrets.PROJEN_APP_ID }}',
-  'private-key': '${{ secrets.PROJEN_APP_PRIVATE_KEY }}',
-});
-// Remove old Release step fields from step 10
-releaseWorkflow.file!.addDeletionOverride('jobs.release_golang.steps.10.env');
-releaseWorkflow.file!.addDeletionOverride('jobs.release_golang.steps.10.run');
-// Step 11: actual release using the App token
-releaseWorkflow.file!.addOverride('jobs.release_golang.steps.11', {
-  name: 'Release',
-  env: {
-    GIT_USER_NAME: 'github-actions[bot]',
-    GIT_USER_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com',
-    GITHUB_TOKEN: '${{ steps.generate_token.outputs.token }}',
-  },
-  run: [
-    // publib constructs https://<token>@github.com/... which works for PATs but not GitHub App tokens.
-    // App tokens require the x-access-token: username prefix.
-    'git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://${GITHUB_TOKEN}@github.com/"',
-    'npx -p publib@latest publib-golang',
-  ].join('\n'),
-});
+// publib pushes via `https://<GITHUB_TOKEN>@github.com`, but the workflow's
+// installation token only authenticates in the documented
+// `x-access-token:<token>` userinfo form. Rewrite the URL inside git itself
+// via env-based config (GIT_CONFIG_COUNT/KEY_0/VALUE_0, git >= 2.31) at the
+// JOB level: immune to step-index drift (the old steps.10/11 surgery here
+// would have corrupted the job when pnpm's setup step shifted indices), and
+// no App token needed for a same-repo push.
+releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_COUNT', '1');
+releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_KEY_0', 'url.https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/.insteadOf');
+releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_VALUE_0', 'https://${{ secrets.GITHUB_TOKEN }}@github.com/');
 
 // PyPI Trusted Publishing — replace TWINE_USERNAME/TWINE_PASSWORD with OIDC
 releaseWorkflow.file!.addDeletionOverride('jobs.release_pypi.steps.10.env.TWINE_USERNAME');
@@ -257,14 +231,11 @@ releaseWorkflow.file!.addDeletionOverride('jobs.release_nuget.steps.10.env.NUGET
 releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_TRUSTED_PUBLISHER', 'true');
 releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_USERNAME', 'jjrawlins');
 
-// Prevent release workflow from triggering on Go module commits
-releaseWorkflow.file!.addOverride('on.push.paths-ignore', [
-  'cdkamibuilder/**',
-]);
-
 // Fix tag existence check to use exact ref match (prevents Go module tags like
 // cdkamibuilder/v0.0.190 from falsely matching when checking for v0.0.190)
-releaseWorkflow.file!.addOverride('jobs.release.steps.5.run', [
+// Step index verified against the rendered release.yml after synth (the
+// pre-push workflow scan asserts this lands on the tag-check run step).
+releaseWorkflow.file!.addOverride('jobs.release.steps.7.run', [
   'TAG=$(cat dist/releasetag.txt)',
   '([ ! -z "$TAG" ] && git ls-remote -q --exit-code --tags origin "refs/tags/$TAG" && (echo "exists=true" >> $GITHUB_OUTPUT)) || (echo "exists=false" >> $GITHUB_OUTPUT)',
   'cat $GITHUB_OUTPUT',
@@ -290,7 +261,10 @@ const dependabot = new Dependabot(project.github!, {
   cooldown: {
     defaultDays: 7,
     semverMinorDays: 7,
-    semverPatchDays: 3,
+    // Keep every cooldown >= the pnpm minimumReleaseAge gate (7d): Dependabot
+    // regenerates pnpm-lock.yaml with pnpm itself, which honors the committed
+    // gate (dependabot-core#13165). With cooldown >= gate, PRs are born age-clean.
+    semverPatchDays: 7,
     include: ['*'],
   },
   groups: {
@@ -310,6 +284,37 @@ dependabot.config.updates.push({
   'schedule': { interval: 'weekly' },
   'open-pull-requests-limit': 0,
   'labels': ['dependencies', 'github-actions'],
+});
+
+new YamlFile(project, 'pnpm-workspace.yaml', {
+  obj: {
+    // 7d age gate applied at RESOLUTION time — covers transitives, the gap
+    // Dependabot's cooldown can't close. Must stay <= every Dependabot
+    // cooldown above or bump PRs can't resolve.
+    minimumReleaseAge: 10080,
+    // jsii bundledDependencies require a flat node_modules; pnpm's isolated
+    // default hard-errors at `pnpm pack`.
+    nodeLinker: 'hoisted',
+    allowBuilds: {
+      // Transitive of eslint-import-resolver-typescript; ships prebuilt
+      // binaries, its build script is an unneeded fallback.
+      'unrs-resolver': false,
+      // esbuild's postinstall is binary validation; the platform binary
+      // itself comes from its optionalDependencies and works without it.
+      'esbuild': false,
+    },
+  },
+});
+
+// Two-witness on the age gate: verify the ARTIFACT (registry publish date of
+// every resolved version), not the resolver that produced it.
+const auditTask = project.addTask('audit:lockfile-age', {
+  exec: 'node .github/scripts/audit-lockfile-age.mjs pnpm-lock.yaml 168',
+  description: 'Verify every pnpm-lock.yaml entry is at least 168h old on the registry',
+});
+project.buildWorkflow?.addPostBuildSteps({
+  name: 'Audit lockfile age',
+  run: `npx projen ${auditTask.name}`,
 });
 
 new YamlFile(project, '.github/workflows/security.yml', {
@@ -489,8 +494,13 @@ e2eWorkflow.addJobs({
         with: { 'node-version': workflowNodeVersion },
       },
       {
+        name: 'Setup pnpm',
+        uses: 'pnpm/action-setup@v5',
+        with: { version: '11.13.0' },
+      },
+      {
         name: 'Install dependencies',
-        run: 'yarn install --check-files --frozen-lockfile',
+        run: 'pnpm install --frozen-lockfile',
       },
       {
         name: 'Build',
@@ -551,7 +561,6 @@ new TextFile(project, '.tool-versions', {
   lines: [
     '# ~~ Generated by projen. To modify, edit .projenrc.ts and run "npx projen".',
     `nodejs ${devNodeVersion}`,
-    'yarn 1.22.22',
   ],
 });
 
