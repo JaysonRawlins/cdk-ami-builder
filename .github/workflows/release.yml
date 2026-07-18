@@ -195,14 +195,11 @@ jobs:
         run: mv dist dist.old
       - name: Create python artifact
         run: cd .repo && pnpm exec projen package:python
-        env:
-          PYPI_TRUSTED_PUBLISHER: "true"
       - name: Collect python artifact
         run: mv .repo/dist dist
       - name: Release
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          PYPI_TRUSTED_PUBLISHER: "true"
         run: npx -p publib@latest publib-pypi
   release_nuget:
     name: Publish to NuGet Gallery
@@ -249,14 +246,12 @@ jobs:
         run: mv dist dist.old
       - name: Create dotnet artifact
         run: cd .repo && pnpm exec projen package:dotnet
-        env:
-          NUGET_TRUSTED_PUBLISHER: "true"
-          NUGET_USERNAME: jjrawlins
       - name: Collect dotnet artifact
         run: mv .repo/dist dist
       - name: Release
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_TRUSTED_PUBLISHER: "true"
+          NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
         run: npx -p publib@latest publib-nuget
   release_golang:
     name: Publish to GitHub Go Module Repository

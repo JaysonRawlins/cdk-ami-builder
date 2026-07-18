@@ -83,6 +83,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToPypi: {
     distName: 'jjrawlins-cdk-ami-builder',
     module: 'jjrawlins_cdk_ami_builder',
+    trustedPublishing: true,
   },
   publishToGo: {
     moduleName: 'github.com/JaysonRawlins/cdk-ami-builder',
@@ -98,6 +99,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToNuget: {
     packageId: 'JJRawlins.CdkAmiBuilder',
     dotNetNamespace: 'JJRawlins.CdkAmiBuilder',
+    trustedPublishing: true,
   },
   peerDeps: [
     `aws-cdk-lib@>=${cdkVersion} <3.0.0`,
@@ -220,16 +222,6 @@ const releaseWorkflow = project.github!.tryFindWorkflow('release')!;
 releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_COUNT', '1');
 releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_KEY_0', 'url.https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/.insteadOf');
 releaseWorkflow.file!.addOverride('jobs.release_golang.env.GIT_CONFIG_VALUE_0', 'https://${{ secrets.GITHUB_TOKEN }}@github.com/');
-
-// PyPI Trusted Publishing — replace TWINE_USERNAME/TWINE_PASSWORD with OIDC
-releaseWorkflow.file!.addDeletionOverride('jobs.release_pypi.steps.10.env.TWINE_USERNAME');
-releaseWorkflow.file!.addDeletionOverride('jobs.release_pypi.steps.10.env.TWINE_PASSWORD');
-releaseWorkflow.file!.addOverride('jobs.release_pypi.steps.10.env.PYPI_TRUSTED_PUBLISHER', 'true');
-
-// NuGet Trusted Publishing — replace NUGET_API_KEY with OIDC
-releaseWorkflow.file!.addDeletionOverride('jobs.release_nuget.steps.10.env.NUGET_API_KEY');
-releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_TRUSTED_PUBLISHER', 'true');
-releaseWorkflow.file!.addOverride('jobs.release_nuget.steps.10.env.NUGET_USERNAME', 'jjrawlins');
 
 // Fix tag existence check to use exact ref match (prevents Go module tags like
 // cdkamibuilder/v0.0.190 from falsely matching when checking for v0.0.190)
