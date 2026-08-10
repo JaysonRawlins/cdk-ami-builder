@@ -116,7 +116,7 @@ importers:
         version: 1.139.0
       jsii-docgen:
         specifier: ^10.5.0
-        version: 10.12.4(jsii-rosetta@5.8.25)
+        version: 10.12.5(jsii-rosetta@5.8.25)
       jsii-pacmak:
         specifier: ^1.128.0
         version: 1.139.0(jsii-rosetta@5.8.25)
@@ -190,6 +190,9 @@ packages:
   '@aws-sdk/core@3.977.1':
     resolution: {integrity: sha512-KVtQRtc00ES/y+Sc3vYXeP6pCIcNlBJCZOwvqSy8ZpVGmbM5+IG+AfhuTKQ2oXmIVqZJewaGMMpzPkywC6xg0w==}
     engines: {node: '>=20.0.0'}
+    deprecated: |-
+      Deprecated due to Document number parsing bug in JSON, see
+        https://github.com/aws/aws-sdk-js-v3/issues/8246. Newer version available.
 
   '@aws-sdk/credential-provider-env@3.972.61':
     resolution: {integrity: sha512-qihs2ekMb89Nxd2JenCgVFhjbkb3EIo7HEBCBzyZACKVJdrLUZBLOmAE3xr0Sayml8n/jZSzwO/IufIiIzO7PQ==}
@@ -1570,6 +1573,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   dargs@7.0.0:
     resolution: {integrity: sha512-2iy1EkLdlBzQGvbweYRFxmFath8+K7+AKB0TlhHWkNuH+TmovaMH/Wp7V7R4u7f4SnX3OgLsU9t1NI9ioDnUpg==}
@@ -2492,8 +2496,8 @@ packages:
     engines: {node: '>= 14.17.0'}
     hasBin: true
 
-  jsii-docgen@10.12.4:
-    resolution: {integrity: sha512-CHtSyZFKjtgfB+UCz/tguRn001XQ7gtD7qw2EFS9WIjnfWGqV22zWzT6TPyZABYhxkqNz8LFFpCcGJ3xO+S6+A==}
+  jsii-docgen@10.12.5:
+    resolution: {integrity: sha512-u0xKNxyaDY8Gbfs7hM761OsHr8xoRrJn+2iVCgJ6VvKTW0iDJ0bWHZdCv1ETrKAZdfE7sMy+2OoGL0+J9czgRQ==}
     hasBin: true
     peerDependencies:
       jsii-rosetta: ^1.85.0 || ~5.0.14 || ~5.1.2 || ~5.2.0 || ~5.3.0 || ~5.4.0 || ~5.5.0 || ~5.6.0 || ~5.7.0 || ~5.8.0 || ~5.9.1 || ~6.0.0
@@ -2504,11 +2508,6 @@ packages:
     hasBin: true
     peerDependencies:
       jsii-rosetta: '>=5.9.0'
-
-  jsii-reflect@1.138.0:
-    resolution: {integrity: sha512-P+fhvKDpthnETulludn497SQpnHDprGaOaINMtx7coabs6scRDjoXe5Hi65rJF3xySac82IinbfPUnCCkGiG4w==}
-    engines: {node: '>= 14.17.0'}
-    hasBin: true
 
   jsii-reflect@1.139.0:
     resolution: {integrity: sha512-Z8rGDzykcg6REfFV8HJZ0oms5zi8wBO4T7B5thSS4iME0osbWJP62pFn2yT6VivOESKnkFZOI3RkIKYkynPbGg==}
@@ -2783,10 +2782,6 @@ packages:
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
-
-  oo-ascii-tree@1.138.0:
-    resolution: {integrity: sha512-vviXaVFx9G/Ec59OofWCNJ6V8WxS5tEIucqFiEEKwfHN39NjW3vLPVL/3PmDm2aluPMkW0CDQta4i/MflE7ulQ==}
-    engines: {node: '>= 14.17.0'}
 
   oo-ascii-tree@1.139.0:
     resolution: {integrity: sha512-Sv9334UvsBcvYh9xkcBtheWjH+mkhXLmuhOm+/OTGVFUCsvdVdXwDMTbYZHpJaTSbhaHScPbHqjAPECAFwlgtg==}
@@ -6476,13 +6471,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jsii-docgen@10.12.4(jsii-rosetta@5.8.25):
+  jsii-docgen@10.12.5(jsii-rosetta@5.8.25):
     dependencies:
-      '@jsii/spec': 1.138.0
+      '@jsii/spec': 1.139.0
       case: 1.6.3
       fast-glob: 3.3.3
       fs-extra: 10.1.0
-      jsii-reflect: 1.138.0
+      jsii-reflect: 1.139.0
       jsii-rosetta: 5.8.25
       json-stream-stringify: 3.1.7
       semver: 7.8.5
@@ -6502,15 +6497,6 @@ snapshots:
       semver: 7.8.5
       spdx-license-list: 6.11.0
       xmlbuilder: 15.1.1
-      yargs: 17.7.3
-
-  jsii-reflect@1.138.0:
-    dependencies:
-      '@jsii/check-node': 1.138.0
-      '@jsii/spec': 1.138.0
-      chalk: 4.1.2
-      fs-extra: 10.1.0
-      oo-ascii-tree: 1.138.0
       yargs: 17.7.3
 
   jsii-reflect@1.139.0:
@@ -6814,8 +6800,6 @@ snapshots:
   onetime@5.1.2:
     dependencies:
       mimic-fn: 2.1.0
-
-  oo-ascii-tree@1.138.0: {}
 
   oo-ascii-tree@1.139.0: {}
 
